@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leadership Hub</title>
+    <title>RepHub</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Configure Tailwind for Dark Mode -->
+    <!-- Configure Tailwind for Dark Mode & NBC Palette -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -19,17 +19,35 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        // Minimalist black/white palette extension
                         slate: {
                             850: '#1e293b',
                             900: '#0f172a', 
                         },
-                        // Xfinity Purple Custom Colors
-                        xfinity: {
-                            DEFAULT: '#612579', // Deep Purple for Light Mode
-                            light: '#C388D6',   // Lighter Lavender for Dark Mode readability
+                        // NBC Peacock Palette
+                        nbc: {
+                            yellow: '#FDB813',
+                            orange: '#F58025',
+                            red: '#D52B1E',
+                            purple: '#6F2C91',
+                            blue: '#007AC9',
+                            green: '#3FA535',
                         }
-                    }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                    },
                 }
             }
         }
@@ -37,7 +55,7 @@
 
     <style>
         /* Minimalist Font Import */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
@@ -54,12 +72,64 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Minimalist Card Hover Effect */
+        /* NBC Gradient Utilities */
+        .nbc-gradient-bg {
+            background: linear-gradient(to right, #FDB813, #F58025, #D52B1E, #6F2C91, #007AC9, #3FA535);
+        }
+        
+        .nbc-gradient-text {
+            background: linear-gradient(to right, #FDB813, #F58025, #D52B1E, #6F2C91, #007AC9, #3FA535);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Card Styles */
         .tool-card {
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
         }
+        
+        /* Colorful hover border effect */
+        .tool-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(to right, #FDB813, #F58025, #D52B1E, #6F2C91, #007AC9, #3FA535);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
         .tool-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Subtle background mesh */
+        .bg-mesh {
+            background-color: #ffffff;
+            background-image: radial-gradient(at 0% 0%, rgba(253, 184, 19, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 0%, rgba(0, 122, 201, 0.05) 0px, transparent 50%);
+        }
+        .dark .bg-mesh {
+            background-color: #0f172a;
+            background-image: radial-gradient(at 0% 0%, rgba(253, 184, 19, 0.03) 0px, transparent 50%),
+                              radial-gradient(at 100% 0%, rgba(111, 44, 145, 0.05) 0px, transparent 50%);
         }
     </style>
 
@@ -72,26 +142,31 @@
         }
     </script>
 </head>
-<body class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-mesh text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
 
     <!-- Header -->
-    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-transparent dark:border-slate-800 transition-colors duration-300">
+    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
+        <!-- NBC Gradient Top Border -->
+        <div class="h-1 nbc-gradient-bg w-full"></div>
+        
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                        <div class="w-10 h-10 bg-black dark:bg-white rounded-xl flex items-center justify-center shadow-lg">
-                            <i data-lucide="briefcase" class="text-white dark:text-black w-6 h-6"></i>
+                        <!-- Icon Container with NBC colors -->
+                        <div class="relative w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden group">
+                            <div class="absolute inset-0 bg-slate-900 dark:bg-white group-hover:scale-110 transition-transform duration-500"></div>
+                            <i data-lucide="briefcase" class="relative z-10 text-white dark:text-black w-6 h-6"></i>
                         </div>
-                        <span class="font-bold text-2xl tracking-tighter text-black dark:text-white">LeaderHub</span>
+                        <span class="font-extrabold text-2xl tracking-tighter nbc-gradient-text">RepHub</span>
                     </div>
                     
                     <!-- Desktop Nav -->
                     <div class="hidden md:ml-12 md:flex md:space-x-8">
-                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="text-base font-semibold border-b-2 border-black dark:border-white text-black dark:text-white px-1 py-1 transition-all">
+                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="text-base font-bold border-b-2 border-nbc-purple text-slate-900 dark:text-white px-1 py-1 transition-all">
                             Tools
                         </button>
-                        <button onclick="switchTab('directory')" id="nav-directory" class="text-base font-medium text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white border-b-2 border-transparent px-1 py-1 transition-all">
+                        <button onclick="switchTab('directory')" id="nav-directory" class="text-base font-medium text-slate-500 dark:text-slate-400 hover:text-nbc-blue border-b-2 border-transparent px-1 py-1 transition-all">
                             Directory
                         </button>
                     </div>
@@ -114,10 +189,10 @@
         </div>
         
         <!-- Mobile Nav Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shadow-xl">
             <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
-                <button onclick="switchTab('dashboard')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left">Tools Dashboard</button>
-                <button onclick="switchTab('directory')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left">Directory</button>
+                <button onclick="switchTab('dashboard')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left border-l-4 border-nbc-purple pl-2">Tools Dashboard</button>
+                <button onclick="switchTab('directory')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left border-l-4 border-transparent pl-2 hover:border-nbc-blue">Directory</button>
             </div>
         </div>
     </header>
@@ -131,20 +206,20 @@
             <!-- Global Tool Search & Header -->
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div>
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
-                        Tools
+                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-nbc-purple to-nbc-blue">Tools</span>
                     </h1>
                     <p class="text-lg text-slate-500 dark:text-slate-400">Access your mission-critical platforms.</p>
                 </div>
-                <div class="w-full md:w-1/3 relative">
+                <div class="w-full md:w-1/3 relative group">
                      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-nbc-blue transition-colors"></i>
                     </div>
                     <input
                         type="text"
                         id="tool-search"
                         onkeyup="filterTools()"
-                        class="block w-full pl-12 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-black dark:focus:ring-white transition-all shadow-inner"
+                        class="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-800 border-2 border-transparent focus:border-nbc-blue rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-0 transition-all shadow-sm"
                         placeholder="Quick find tools..."
                     />
                 </div>
@@ -153,13 +228,13 @@
             <!-- Favorites Section (Hidden by default) -->
             <div id="favorites-section" class="hidden mb-12">
                 <div class="flex items-center gap-2 mb-4">
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-yellow-500"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-nbc-yellow fill-nbc-yellow"></i>
                     <h3 class="text-xl font-bold text-slate-900 dark:text-white">Pinned Tools</h3>
                 </div>
                 <div id="favorites-container" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     <!-- Favorites Injected Here -->
                 </div>
-                <hr class="mt-10 border-slate-100 dark:border-slate-800">
+                <hr class="mt-10 border-slate-200 dark:border-slate-800">
             </div>
 
             <!-- All Tools Container -->
@@ -173,26 +248,26 @@
         <div id="view-directory" class="hidden fade-in">
             <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
-                        Directory
+                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
+                         <span class="bg-clip-text text-transparent bg-gradient-to-r from-nbc-green to-nbc-blue">Directory</span>
                     </h1>
                     <p class="text-lg text-slate-500 dark:text-slate-400">Contact details for key departments.</p>
                 </div>
-                <div class="w-full md:w-1/3 relative">
+                <div class="w-full md:w-1/3 relative group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-nbc-green transition-colors"></i>
                     </div>
                     <input
                         type="text"
                         id="directory-search"
                         onkeyup="filterDirectory()"
-                        class="block w-full pl-12 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-black dark:focus:ring-white transition-all shadow-inner"
+                        class="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-800 border-2 border-transparent focus:border-nbc-green rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-0 transition-all shadow-sm"
                         placeholder="Search name or role..."
                     />
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-none overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-none overflow-hidden border border-slate-100 dark:border-slate-700">
                 <div class="min-w-full overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
                         <thead class="bg-slate-50 dark:bg-slate-800/50">
@@ -272,7 +347,6 @@
                     { name: "ECM", url: "https://ecm.comcast.com/ecm", customIcon: ecmIcon, desc: "Pathway to ticketing" },
                     { name: "ABT", url: "https://abt.cable.comcast.com/", icon: "home", desc: "New builds, modify existing address" },
                     { name: "Cash Management", url: "https://rposportal.comcast.com/cash-drawer", icon: "dollar-sign", desc: "Monthly Cash Audits, Cash Confirmation" },
-                    { name: "Bad Debt Tool", url: "https://baddebt.cable.comcast.com/default.aspx", customIcon: badDebtIcon, desc: "Remove debt lock on location" },
                     { name: "Einstein", url: "https://einstein360.cable.comcast.com/einstein_nxtgen#Layout=1", icon: "brain", desc: "Notes, billing, autopay, user profile, ITGs" },
                     { name: "Retail 360", url: "https://retail360a.cable.comcast.com/login-nextgen#Layout=1", customIcon: retail360Icon, desc: "Launch XM, disconnects, manage equipment" },
                     { name: "Celestial", url: "https://celestial.cable.comcast.com/knowledge/?cb=1715089190584", customIcon: celestialIcon, desc: "Store Space/Queue, POS, apps, XM promotions" },
@@ -283,29 +357,15 @@
                     { name: "UKG Pro", url: "https://comcastcable-sso.prd.mykronos.com/wfd/home?tenantId=comcastcable_prd_01#/", icon: "clock", desc: "Timekeeping and Scheduling" },
                     { name: "ComcastNow", url: "https://comcastcorp.sharepoint.com/sites/ComcastNow", icon: "globe", desc: "A hub for information" },
                     { name: "Digital T-Chart", url: "https://apps.powerapps.com/play/e/default-906aefe9-76a7-4f65-b82d-5ec20775d5aa/a/d583b73c-5d09-4401-a975-8486269d3afe?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&hint=6f4239e9-f868-462b-ba16-4356345ddaf0&source=sharebutton&sourcetime=1765394408673&source=teamsLinkUnfurling", icon: "layout", desc: "Comparison and sales tool" },
-                ]
-            },
-            {
-                category: "New Hire",
-                items: [
-                    { name: "Badge/Alarm", url: "https://nedtoc.cable.comcast.com/", icon: "shield", desc: "Alarm codes and badge requests" },
-                    { name: "My Comcast Access", url: "https://mycomcastaccess.comcast.com/identityiq/home.jsf", customIcon: keyIcon, desc: "IE, ECM, Medallia, Seasonal access" },
                     { name: "Tech Spot", url: "https://techspot.comcast.com/techspot", icon: "settings", desc: "Onboarding (CSG, XOE, CELESTIAL, SALES ID)" },
-                    { name: "My Support", url: "https://mysupport.service-now.com/sp", icon: "settings", desc: "Tickets for access issues and tech issues" },
-                    { name: "ID Lookup Tool", url: "https://idlookup.cable.comcast.com/#/", icon: "search", desc: "Lookup NT ID, OP ID, Sales ID" },
-                    { name: "CET", url: "https://commissionsinquiryescalation.cable.comcast.com/#/home", icon: "users", desc: "New hires, LOA, Term Employee, commissions" },
-                    { name: "ASK HRSS", url: "https://comcasthr.zendesk.com/hc/en-us", icon: "users", desc: "Assorted HR escalations, live chat" },
-                    { name: "Mobility Device", url: "https://techspot.comcast.com/techspot?id=ts_cat_item_guide_v3&table=sc_cat_item&sys_id=fd0d2bf71b0e2ad43604a718b04bcbe1", customIcon: crispPhoneIcon, desc: "Ordering for New hire mobile phones" },
-                    { name: "iPad Request", url: "https://techspot.comcast.com/techspot?id=ts_cat_item_guide_v3&table=sc_cat_item&sys_id=a842e22f1b9a1a5410faec64604bcb3a", icon: "tablet", desc: "Ordering for New hire iPads" },
-                    { name: "Employee Handbook", url: "https://comcastcorp.sharepoint.com/sites/cn-hr/Shared%20Documents/Employee%20Handbook,%20Policies%20%26%20Guidelines/Employee_Handbook_Current.pdf", icon: "book", desc: "Policies & Guidelines" },
+                    { name: "MyPerformance", url: "https://myperformance.comcast.net/performance/manager", icon: "bar-chart-3", desc: "Observations, huddles, coaching" },
                 ]
             },
             {
-                category: "Ordering",
+                category: "Training",
                 items: [
-                    { name: "Staples Ordering", url: "https://v1.appx.comcast.net/storeordering/Orders/2912", icon: "pencil", desc: "Assorted office supplies" },
-                    { name: "Business Cards", url: "https://comcast.myonlineordering.com/login.aspx", icon: "users", desc: "Order standard business cards" },
-                    { name: "Hub2U", url: "https://hub2uops.erpapps.comcast.com/hub2u", customIcon: hub2uIcon, desc: "Shipping goods, cables, pouches, bags" },
+                     { name: "Employee Handbook", url: "https://comcastcorp.sharepoint.com/sites/cn-hr/Shared%20Documents/Employee%20Handbook,%20Policies%20%26%20Guidelines/Employee_Handbook_Current.pdf", icon: "book", desc: "Policies & Guidelines" },
+                     { name: "REG", url: "https://celestial.cable.comcast.com/knowledge/frontline-effectiveness/retail-excellence-guide/", icon: "clipboard-check", desc: "Retail Excellence Guide" },
                 ]
             },
             {
@@ -316,19 +376,6 @@
                     { name: "BA Self-Assessment Wk 3", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUODZGNkk3SFJNNTRSMjBEWkNWQlM4TDRUSC4u&origin=Invitation&channel=0", customIcon: num3Icon, desc: "Week 3 Assessment" },
                     { name: "BA Self-Assessment Wk 4", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUQkQxTE9KMzNES1BRQUw0TEJBTlVVMDdWWi4u&origin=Invitation&channel=0", customIcon: num4Icon, desc: "Week 4 Assessment" },
                     { name: "Retail Road to Awesome", url: "https://www.jotform.com/app/252685641483162?utm_source=jotform_pwa", customIcon: roadIcon, desc: "Retail performance audit" },
-                    { name: "Perceptyx", url: "https://login.perceptyx.com/oauth2/default/v1/authorize?client_id=0oa4ca5e22h55xX6I5d7&response_type=code&response_mode=query&scope=openid+profile+email+offline_access&redirect_uri=https%3A%2F%2Fauth.perceptyx.com%2Fauthorization-code%2Fcallback&state=HpRSHYrn4GF21n4o.eT_g7oqhq64hfLn_RAcqQt.R1o-&nonce=GDrBbiKWafT0Gexw1zHSDcSrPpsUu5TEbrPy.bgQCNg-", icon: "pie-chart", desc: "Employee engagement surveys" },
-                ]
-            },
-            {
-                category: "Training",
-                items: [
-                    { name: "Lead By Coaching", url: "https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:2caec556-8ea1-42ee-922c-bbeb5088d57d", icon: "book-open", desc: "Leadership coaching guide" },
-                    { name: "Sales Lab", url: "https://comcastcorp.sharepoint.com/sites/cn-learninganddevelopment/SitePages/Sales-Lab.aspx?web=1", customIcon: testTubeIcon, desc: "30 minute 1:1 (counts towards coaching)" },
-                    { name: "Sales Lab for Leaders", url: "https://apps.powerapps.com/play/e/115b9293-5645-e9ec-8d47-2bd945210012/a/ec7f9873-c628-46bf-864d-e5c76e9d834b?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&sourcetime=1743112338240&source=portal&Hidenavbar=true", customIcon: testTubeIcon, desc: "Leadership specific modules" },
-                    { name: "Thursday Manager Decks", url: "https://comcastcorp.sharepoint.com/teams/NED-NER-RetailLeaders/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=g44zIT&ovuser=906aefe9%2D76a7%2D4f65%2Db82d%2D5ec20775d5aa%2Csfarer525%40cable%2Ecomcast%2Ecom&OR=Teams%2DHL&CT=1759266028368&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNTA4MjgxNzkxMiIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D&CID=b3e9caa1%2D9023%2Da000%2D2677%2Dbff0cb2ccce0&cidOR=SPO&FolderCTID=0x0120008C4D267B38D0FE48848E737A6FC215D1&id=%2Fteams%2FNED%2DNER%2DRetailLeaders%2FShared%20Documents%2FGeneral%2FMeeting%20Decks", icon: "file-text", desc: "Meeting decks: in case you missed it" },
-                    { name: "SEPA Decks", url: "https://comcastcorp.sharepoint.com/sites/WNEProductAdvocacy/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FWNEProductAdvocacy%2FShared%20Documents%2FGeneral%2FSEPA%20Weekly%20Huddle%20Deck&viewid=b98ff6bb%2D65a0%2D445a%2Db45f%2Da5378c0c0770&p=true&ct=1764796503728&or=OWA%2DNT%2DMail&cid=02f58f74%2D007f%2D841e%2D3f40%2Db49da655a641&ga=1", icon: "file-text", desc: "Current SEPA Weekly Huddle Deck" },
-                    { name: "MyPerformance", url: "https://myperformance.comcast.net/performance/manager", icon: "bar-chart-3", desc: "Observations, huddles, coaching" },
-                    { name: "REG", url: "https://celestial.cable.comcast.com/knowledge/frontline-effectiveness/retail-excellence-guide/", icon: "clipboard-check", desc: "Retail Excellence Guide" },
                 ]
             },
             {
@@ -337,15 +384,11 @@
                     { name: "Workday", url: "https://wd5.myworkday.com/comcast/d/home.htmld", icon: "briefcase", desc: "Input CA, SSIP, Check-ins, Trainings, CGP, Skills, and update personal details" },
                     { name: "Expense Reporting", url: "https://myexpense.comcast.com/login", icon: "wallet", desc: "Submit for travel and spend on P-card" },
                     { name: "NT Password Reset", url: "https://passwordreset.microsoftonline.com/", icon: "settings", desc: "Reset network credentials" },
-                    { name: "Facilities", url: "https://login.cbre.com/app/cbre_siefmprdcrscomcast_1/exkh21i9qcogQWDp04x7/sso/saml?SAMLRequest=PHNhbWxwOkF1dGhuUmVxdWVzdCBJRD0iX2I3MTRkN2E1LTVkNzYtNDJlMi04MWY1LTQ1ODliZjZmNzQ2MiIgVmVyc2lvbj0iMi4wIiBJc3N1ZUluc3RhbnQ9IjIwMjQtMDMtMDJUMjA6NDI6NDdaIiBQcm90b2NvbEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpIVFRQLVBPU1QiIEFzc2VydGlvbkNvbnN1bWVyU2VydmljZVVSTD0iaHR0cHM6Ly9lbnRlcnByaXNlLnNlcnZpY2VpbnNpZ2h0LmNicmUuY29tL1BSRDIwMjQ5Q1JTIiB4bWxuczpzYW1scD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnByb3RvY29sIj48c2FtbDpJc3N1ZXIgeG1sbnM6c2FtbD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiI%2baHR0cDovL3d3dy5va3RhLmNvbS9leGtoMjFpOXFjb2dRV0RwMDR4Nzwvc2FtbDpJc3N1ZXI%2bPHNhbWxwOk5hbWVJRFBvbGljeSBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnVuc3BlY2lmaWVkIiBBbGxvd0NyZWF0ZT0idHJ1ZSIgLz48c2FtbHA6UmVxdWVzdGVkQXV0aG5Db250ZXh0IENvbXBhcmlzb249ImV4YWN0Ij48c2FtbDpBdXRobkNvbnRleHRDbGFzc1JlZiB4bWxuczpzYW1sPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YWM6Y2xhc3NlczpQYXNzd29yZFByb3RlY3RlZFRyYW5zcG9ydDwvc2FtbDpBdXRobkNvbnRleHRDbGFzc1JlZj48L3NhbWxwOlJlcXVlc3RlZEF1dGhuQ29udGV4dD48L3NhbWxwOkF1dGhuUmVxdWVzdD4%3d", icon: "wrench", desc: "Tickets for facilities" },
-                    { name: "AED Check", url: "https://aedsuperstore.onlineoversight.com/site/login", customIcon: aedIcon, desc: "1st of each month" },
-                    { name: "EAS | Northeast Division", url: "https://comcastcorp.sharepoint.com/:u:/r/sites/hqeaseas/SitePages/Northeast-Division(1).aspx?csf=1&web=1&e=0co1sW", icon: "life-buoy", desc: "Employee Advisory Services & Support" },
                     { name: "XISCO", url: "https://xisco.comcast.net/home/menu", icon: "search", desc: "Trade in lookup by IMEI" },
                     { name: "Kiosk", url: "https://comcast.convergentcare.com/cmcst/demoDashboard.jsp", icon: "dollar-sign", desc: "End of day report for cash on kiosk" },
                     { name: "Xinventory", url: "https://cceis.mintek.com/xInventory/dashboard", customIcon: barcodeIcon, desc: "Shipping and receiving, counts" },
                     { name: "XVIP", url: "https://xvip.merchandising.cloud/store/locations", customIcon: mapIcon, desc: "Resets, ordering signage/tags/brochures" },
                     { name: "Get There", url: "https://wx1.getthere.net/DispatcherServlet?requestType=logininq&site=comcast", icon: "plane", desc: "travel/car/hotel" },
-                    { name: "Drug/Alcohol Suspicion", url: "https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:6171cd03-db01-4601-a384-94be541ed725", icon: "alert-triangle", desc: "Reporting guidelines" },
                     { name: "Porting Hub", url: "https://bailey-west.github.io/PortingAssistant/", customIcon: crispPhoneIcon, desc: "Xfinity Porting Hub" },
                 ]
             },
@@ -360,10 +403,7 @@
                 category: "Escalations/Elevations",
                 items: [
                     { name: "JIRA", url: "https://npselevations.sys.comcast.net/secure/Dashboard.jspa?selectPageId=12001", icon: "alert-circle", desc: "NPS Elevations & Ticket Management" },
-                    { name: "DPP Credit Increase", url: "https://app.smartsheet.com/b/form/db2b1ee2d8424fbb950c13fd2c18d332", icon: "dollar-sign", desc: "Increase DPP/lines after 6 months" },
-                    { name: "XM Escalations", url: "https://comcastcorp.sharepoint.com/:p:/t/NED-NER-RetailLeaders/ERW7J4MiQgRHhyc4WE4MJ2gBlgCqZUpZEv0xEw-X6oA6iA?e=cbBDor", customIcon: exclamationIcon, desc: "Guidebook: ECM pathways for XM" },
-                    { name: "Cx Escalations Form", url: "https://app.smartsheet.com/b/form/6299c669e29547269c9638d157a14e2d", icon: "file-warning", desc: "Submit customer escalations" },
-                    { name: "BP Escalation Form", url: "https://app.smartsheet.com/b/form/1aad1246a91048b5923b9cd49e323dff", icon: "file-warning", desc: "Business Partner escalations" },
+                    { name: "ASK HRSS", url: "https://comcasthr.zendesk.com/hc/en-us", icon: "users", desc: "Assorted HR escalations, live chat" },
                 ]
             },
             {
@@ -402,7 +442,7 @@
         // Helper to generate a single card HTML
         function getCardHtml(item, isFav = false) {
             const isFavorited = favorites.includes(item.name);
-            const favIconClass = isFavorited ? "fill-yellow-400 text-yellow-400" : "text-slate-300 dark:text-slate-600 hover:text-yellow-400";
+            const favIconClass = isFavorited ? "fill-nbc-yellow text-nbc-yellow" : "text-slate-300 dark:text-slate-600 hover:text-nbc-yellow";
             
             let iconHtml;
             if (item.customIcon) {
@@ -413,17 +453,17 @@
 
             return `
             <div class="tool-card group relative flex flex-col p-4 rounded-xl bg-white dark:bg-slate-800 shadow-lg dark:shadow-none dark:border dark:border-slate-700">
-                <button onclick="toggleFavorite('${item.name}')" class="absolute top-3 right-3 p-1 z-10 transition-colors">
+                <button onclick="toggleFavorite('${item.name}')" class="absolute top-3 right-3 p-1 z-20 transition-colors">
                     <i data-lucide="star" class="w-5 h-5 ${favIconClass}"></i>
                 </button>
-                <a href="${item.url}" target="_blank" class="flex-grow flex flex-col">
+                <a href="${item.url}" target="_blank" class="flex-grow flex flex-col relative z-10">
                     <div class="flex items-start justify-between mb-3">
-                        <div class="p-2 bg-black dark:bg-white rounded-xl flex items-center justify-center">
+                        <div class="p-2 bg-slate-900 dark:bg-white rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
                             ${iconHtml}
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-xfinity dark:group-hover:text-xfinity-light transition-colors">${item.name}</h4>
+                        <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-nbc-blue transition-colors">${item.name}</h4>
                         <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
                     </div>
                 </a>
@@ -495,13 +535,13 @@
             let html = '';
             data.forEach(person => {
                 const initial = person.name.charAt(0);
-                const emailHtml = person.email !== '-' ? `<a href="mailto:${person.email}" class="flex items-center hover:text-xfinity dark:hover:text-xfinity-light"><i data-lucide="mail" class="w-4 h-4 mr-2"></i>${person.email}</a>` : '';
+                const emailHtml = person.email !== '-' ? `<a href="mailto:${person.email}" class="flex items-center hover:text-nbc-blue"><i data-lucide="mail" class="w-4 h-4 mr-2"></i>${person.email}</a>` : '';
                 
                 html += `
                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black font-bold text-sm">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-black font-bold text-sm">
                                 ${initial}
                             </div>
                             <div class="ml-4">
@@ -520,14 +560,14 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
                         <div class="flex flex-col space-y-1">
                             ${emailHtml}
-                            <a href="tel:${person.phone}" class="flex items-center hover:text-xfinity dark:hover:text-xfinity-light transition-colors">
+                            <a href="tel:${person.phone}" class="flex items-center hover:text-nbc-blue transition-colors">
                                 <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
                                 ${person.phone}
                             </a>
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button onclick="copyPhone('${person.phone}', this)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 hover:text-xfinity dark:hover:text-xfinity-light transition-colors" title="Copy Phone Number">
+                        <button onclick="copyPhone('${person.phone}', this)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 hover:text-nbc-green transition-colors" title="Copy Phone Number">
                             <i data-lucide="copy" class="w-5 h-5"></i>
                         </button>
                     </td>
@@ -584,11 +624,11 @@
                 directoryView.classList.add('hidden');
                 
                 // Active Styling
-                dashboardBtn.classList.add('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                dashboardBtn.classList.add('border-nbc-purple', 'text-slate-900', 'dark:text-white');
                 dashboardBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
                 
                 // Inactive Styling
-                directoryBtn.classList.remove('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                directoryBtn.classList.remove('border-nbc-blue', 'text-slate-900', 'dark:text-white');
                 directoryBtn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
 
             } else {
@@ -596,11 +636,11 @@
                 directoryView.classList.remove('hidden');
                 
                 // Active Styling
-                directoryBtn.classList.add('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                directoryBtn.classList.add('border-nbc-blue', 'text-slate-900', 'dark:text-white');
                 directoryBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
                 
                 // Inactive Styling
-                dashboardBtn.classList.remove('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                dashboardBtn.classList.remove('border-nbc-purple', 'text-slate-900', 'dark:text-white');
                 dashboardBtn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
             }
         }
@@ -650,11 +690,25 @@
         }
 
         function copyPhone(text, btnElement) {
-            navigator.clipboard.writeText(text);
+            // Simplified fallback for iframes where navigator.clipboard might be blocked
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
             
-            // Change icon to check
-            btnElement.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-green-600 dark:text-green-400"></i>`;
-            lucide.createIcons();
+            try {
+                document.execCommand('copy');
+                // Change icon to check on success
+                btnElement.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-nbc-green"></i>`;
+                lucide.createIcons();
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            
+            document.body.removeChild(textArea);
 
             // Revert after 2 seconds
             setTimeout(() => {
