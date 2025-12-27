@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leadership Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Configure Tailwind for Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Minimalist black/white palette extension
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a', 
+                        },
+                        // Xfinity Purple Custom Colors
+                        xfinity: {
+                            DEFAULT: '#612579', // Deep Purple for Light Mode
+                            light: '#C388D6',   // Lighter Lavender for Dark Mode readability
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Minimalist Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Smooth Transitions */
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Minimalist Card Hover Effect */
+        .tool-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <!-- Dark Mode Init Script (Runs before body loads to prevent flash) -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-transparent dark:border-slate-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                        <div class="w-10 h-10 bg-black dark:bg-white rounded-xl flex items-center justify-center shadow-lg">
+                            <i data-lucide="briefcase" class="text-white dark:text-black w-6 h-6"></i>
+                        </div>
+                        <span class="font-bold text-2xl tracking-tighter text-black dark:text-white">LeaderHub</span>
+                    </div>
+                    
+                    <!-- Desktop Nav -->
+                    <div class="hidden md:ml-12 md:flex md:space-x-8">
+                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="text-base font-semibold border-b-2 border-black dark:border-white text-black dark:text-white px-1 py-1 transition-all">
+                            Tools
+                        </button>
+                        <button onclick="switchTab('directory')" id="nav-directory" class="text-base font-medium text-slate-500 dark:text-slate-400 hover:text-black dark:hover:text-white border-b-2 border-transparent px-1 py-1 transition-all">
+                            Directory
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <!-- Dark Mode Toggle -->
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                        <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button onclick="toggleMobileMenu()" class="p-2 rounded-md text-slate-900 dark:text-slate-100">
+                            <i data-lucide="menu" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Nav Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
+            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
+                <button onclick="switchTab('dashboard')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left">Tools Dashboard</button>
+                <button onclick="switchTab('directory')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left">Directory</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        
+        <!-- VIEW: DASHBOARD (TOOLS) -->
+        <div id="view-dashboard" class="fade-in">
+            
+            <!-- Global Tool Search & Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
+                        Tools
+                    </h1>
+                    <p class="text-lg text-slate-500 dark:text-slate-400">Access your mission-critical platforms.</p>
+                </div>
+                <div class="w-full md:w-1/3 relative">
+                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                    </div>
+                    <input
+                        type="text"
+                        id="tool-search"
+                        onkeyup="filterTools()"
+                        class="block w-full pl-12 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-black dark:focus:ring-white transition-all shadow-inner"
+                        placeholder="Quick find tools..."
+                    />
+                </div>
+            </div>
+
+            <!-- Favorites Section (Hidden by default) -->
+            <div id="favorites-section" class="hidden mb-12">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-yellow-500"></i>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Pinned Tools</h3>
+                </div>
+                <div id="favorites-container" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Favorites Injected Here -->
+                </div>
+                <hr class="mt-10 border-slate-100 dark:border-slate-800">
+            </div>
+
+            <!-- All Tools Container -->
+            <div id="tools-container" class="space-y-12">
+                <!-- Tools injected by JS -->
+            </div>
+            
+        </div>
+
+        <!-- VIEW: DIRECTORY -->
+        <div id="view-directory" class="hidden fade-in">
+            <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
+                        Directory
+                    </h1>
+                    <p class="text-lg text-slate-500 dark:text-slate-400">Contact details for key departments.</p>
+                </div>
+                <div class="w-full md:w-1/3 relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                    </div>
+                    <input
+                        type="text"
+                        id="directory-search"
+                        onkeyup="filterDirectory()"
+                        class="block w-full pl-12 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-black dark:focus:ring-white transition-all shadow-inner"
+                        placeholder="Search name or role..."
+                    />
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-none overflow-hidden">
+                <div class="min-w-full overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
+                        <thead class="bg-slate-50 dark:bg-slate-800/50">
+                            <tr>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name / Service</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Department</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Contact</th>
+                                <th scope="col" class="relative px-6 py-4"><span class="sr-only">Actions</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="directory-body" class="bg-white dark:bg-slate-800 divide-y divide-slate-100 dark:divide-slate-700">
+                            <!-- Directory rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="no-results" class="hidden px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+                    No results found.
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- STATE MANAGEMENT ---
+        let favorites = JSON.parse(localStorage.getItem('leaderHubFavorites')) || [];
+
+        // --- CUSTOM SVG ICONS ---
+        // These are manually defined SVGs for tools that need specific branding or custom visuals.
+
+        const badDebtIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white dark:text-black"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="28" fill="currentColor" stroke="none">-$</text></svg>`;
+        
+        const retail360Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><text x="2" y="18" font-family="sans-serif" font-weight="900" font-size="18" fill="currentColor" stroke="none" style="letter-spacing:-1px">360</text><path d="M2 20 Q 20 24 38 18" stroke="currentColor" stroke-width="2" fill="none" /></svg>`;
+
+        const ecmIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white dark:text-black"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">ecm</text></svg>`;
+
+        const iqIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 32 24" fill="none" class="text-white dark:text-black"><text x="6" y="16" font-family="sans-serif" font-weight="bold" font-size="14" fill="currentColor" stroke="none">i</text><text x="11" y="18" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none">Q</text></svg>`;
+
+        const seasonalIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 20-8-8-8 8"/><path d="m4 4 8 8 8-8"/></svg>`;
+
+        const xchangeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="m18 6-12 12"/><path d="m6 6 16 16"/></svg>`;
+
+        const hub2uIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white dark:text-black"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">2U</text></svg>`;
+
+        const celestialIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>`;
+
+        const roadIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M4 19 L8 5"/><path d="M20 19 L16 5"/><line x1="12" y1="5" x2="12" y2="19" stroke-dasharray="4 2"/></svg>`;
+
+        const keyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>`;
+
+        const testTubeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/></svg>`;
+
+        const exclamationIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M12 2v14"/><path d="M12 22v.01"/></svg>`;
+
+        const barcodeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white dark:text-black"><path d="M2 5h2v14H2zm4 0h1v14H6zm3 0h2v14H9zm4 0h3v14h-3zm5 0h1v14h-1zm3 0h1v14h-1z"/></svg>`;
+
+        const mapIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>`;
+
+        const aedIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M13.5 7l-4 5h3l-1.5 5 5.5-6h-3l1.5-4z" fill="currentColor" stroke="none"/></svg>`;
+
+        const tvIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>`;
+
+        const num1Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">1</text></svg>`;
+        const num2Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">2</text></svg>`;
+        const num3Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">3</text></svg>`;
+        const num4Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">4</text></svg>`;
+
+        const crispPhoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white dark:text-black"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+
+        // --- DATA ---
+        const toolsData = [
+            {
+                category: "Day to Day",
+                items: [
+                    { name: "ECM", url: "https://ecm.comcast.com/ecm", customIcon: ecmIcon, desc: "Pathway to ticketing" },
+                    { name: "ABT", url: "https://abt.cable.comcast.com/", icon: "home", desc: "New builds, modify existing address" },
+                    { name: "Cash Management", url: "https://rposportal.comcast.com/cash-drawer", icon: "dollar-sign", desc: "Monthly Cash Audits, Cash Confirmation" },
+                    { name: "Bad Debt Tool", url: "https://baddebt.cable.comcast.com/default.aspx", customIcon: badDebtIcon, desc: "Remove debt lock on location" },
+                    { name: "Einstein", url: "https://einstein360.cable.comcast.com/einstein_nxtgen#Layout=1", icon: "brain", desc: "Notes, billing, autopay, user profile, ITGs" },
+                    { name: "Retail 360", url: "https://retail360a.cable.comcast.com/login-nextgen#Layout=1", customIcon: retail360Icon, desc: "Launch XM, disconnects, manage equipment" },
+                    { name: "Celestial", url: "https://celestial.cable.comcast.com/knowledge/?cb=1715089190584", customIcon: celestialIcon, desc: "Store Space/Queue, POS, apps, XM promotions" },
+                    { name: "IQ", url: "https://comcast.infoquest.tv/Account/Disclaimer", customIcon: iqIcon, desc: "Commissions for team" },
+                    { name: "Xchange", url: "https://xchange3.performnet.com/?state=81d30384dc674c1b841d4f2f70277c95&code=bd48df34-b5ef-40ff-b72e-610ba405dd0c", customIcon: xchangeIcon, desc: "Xchange points, huddles, active incentives" },
+                    { name: "Seasonal Enrollment", url: "https://inseasonal.cable.comcast.com/home", customIcon: seasonalIcon, desc: "Manage seasonal program enrollments" },
+                    { name: "XOE", url: "https://xoe-portal.cws.xfinity.com/portal", icon: "briefcase", desc: "New connects processing" },
+                    { name: "UKG Pro", url: "https://comcastcable-sso.prd.mykronos.com/wfd/home?tenantId=comcastcable_prd_01#/", icon: "clock", desc: "Timekeeping and Scheduling" },
+                    { name: "ComcastNow", url: "https://comcastcorp.sharepoint.com/sites/ComcastNow", icon: "globe", desc: "A hub for information" },
+                    { name: "Digital T-Chart", url: "https://apps.powerapps.com/play/e/default-906aefe9-76a7-4f65-b82d-5ec20775d5aa/a/d583b73c-5d09-4401-a975-8486269d3afe?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&hint=6f4239e9-f868-462b-ba16-4356345ddaf0&source=sharebutton&sourcetime=1765394408673&source=teamsLinkUnfurling", icon: "layout", desc: "Comparison and sales tool" },
+                ]
+            },
+            {
+                category: "New Hire",
+                items: [
+                    { name: "Badge/Alarm", url: "https://nedtoc.cable.comcast.com/", icon: "shield", desc: "Alarm codes and badge requests" },
+                    { name: "My Comcast Access", url: "https://mycomcastaccess.comcast.com/identityiq/home.jsf", customIcon: keyIcon, desc: "IE, ECM, Medallia, Seasonal access" },
+                    { name: "Tech Spot", url: "https://techspot.comcast.com/techspot", icon: "settings", desc: "Onboarding (CSG, XOE, CELESTIAL, SALES ID)" },
+                    { name: "My Support", url: "https://mysupport.service-now.com/sp", icon: "settings", desc: "Tickets for access issues and tech issues" },
+                    { name: "ID Lookup Tool", url: "https://idlookup.cable.comcast.com/#/", icon: "search", desc: "Lookup NT ID, OP ID, Sales ID" },
+                    { name: "CET", url: "https://commissionsinquiryescalation.cable.comcast.com/#/home", icon: "users", desc: "New hires, LOA, Term Employee, commissions" },
+                    { name: "ASK HRSS", url: "https://comcasthr.zendesk.com/hc/en-us", icon: "users", desc: "Assorted HR escalations, live chat" },
+                    { name: "Mobility Device", url: "https://techspot.comcast.com/techspot?id=ts_cat_item_guide_v3&table=sc_cat_item&sys_id=fd0d2bf71b0e2ad43604a718b04bcbe1", customIcon: crispPhoneIcon, desc: "Ordering for New hire mobile phones" },
+                    { name: "iPad Request", url: "https://techspot.comcast.com/techspot?id=ts_cat_item_guide_v3&table=sc_cat_item&sys_id=a842e22f1b9a1a5410faec64604bcb3a", icon: "tablet", desc: "Ordering for New hire iPads" },
+                    { name: "Employee Handbook", url: "https://comcastcorp.sharepoint.com/sites/cn-hr/Shared%20Documents/Employee%20Handbook,%20Policies%20%26%20Guidelines/Employee_Handbook_Current.pdf", icon: "book", desc: "Policies & Guidelines" },
+                ]
+            },
+            {
+                category: "Ordering",
+                items: [
+                    { name: "Staples Ordering", url: "https://v1.appx.comcast.net/storeordering/Orders/2912", icon: "pencil", desc: "Assorted office supplies" },
+                    { name: "Business Cards", url: "https://comcast.myonlineordering.com/login.aspx", icon: "users", desc: "Order standard business cards" },
+                    { name: "Hub2U", url: "https://hub2uops.erpapps.comcast.com/hub2u", customIcon: hub2uIcon, desc: "Shipping goods, cables, pouches, bags" },
+                ]
+            },
+            {
+                category: "Audits / Surveys",
+                items: [
+                    { name: "BA Self-Assessment Wk 1", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUNklMMzU3NlRQQ0NTM09ERFlMQklHS1FSOS4u&origin=Invitation&channel=0", customIcon: num1Icon, desc: "Week 1 Assessment" },
+                    { name: "BA Self-Assessment Wk 2", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUQ0dYSVo5VUpFTUFJWDBSUUhPNjlMV1JFQi4u&origin=Invitation&channel=0", customIcon: num2Icon, desc: "Week 2 Assessment" },
+                    { name: "BA Self-Assessment Wk 3", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUODZGNkk3SFJNNTRSMjBEWkNWQlM4TDRUSC4u&origin=Invitation&channel=0", customIcon: num3Icon, desc: "Week 3 Assessment" },
+                    { name: "BA Self-Assessment Wk 4", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUQkQxTE9KMzNES1BRQUw0TEJBTlVVMDdWWi4u&origin=Invitation&channel=0", customIcon: num4Icon, desc: "Week 4 Assessment" },
+                    { name: "Retail Road to Awesome", url: "https://www.jotform.com/app/252685641483162?utm_source=jotform_pwa", customIcon: roadIcon, desc: "Retail performance audit" },
+                    { name: "Perceptyx", url: "https://login.perceptyx.com/oauth2/default/v1/authorize?client_id=0oa4ca5e22h55xX6I5d7&response_type=code&response_mode=query&scope=openid+profile+email+offline_access&redirect_uri=https%3A%2F%2Fauth.perceptyx.com%2Fauthorization-code%2Fcallback&state=HpRSHYrn4GF21n4o.eT_g7oqhq64hfLn_RAcqQt.R1o-&nonce=GDrBbiKWafT0Gexw1zHSDcSrPpsUu5TEbrPy.bgQCNg-", icon: "pie-chart", desc: "Employee engagement surveys" },
+                ]
+            },
+            {
+                category: "Training",
+                items: [
+                    { name: "Lead By Coaching", url: "https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:2caec556-8ea1-42ee-922c-bbeb5088d57d", icon: "book-open", desc: "Leadership coaching guide" },
+                    { name: "Sales Lab", url: "https://comcastcorp.sharepoint.com/sites/cn-learninganddevelopment/SitePages/Sales-Lab.aspx?web=1", customIcon: testTubeIcon, desc: "30 minute 1:1 (counts towards coaching)" },
+                    { name: "Sales Lab for Leaders", url: "https://apps.powerapps.com/play/e/115b9293-5645-e9ec-8d47-2bd945210012/a/ec7f9873-c628-46bf-864d-e5c76e9d834b?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&sourcetime=1743112338240&source=portal&Hidenavbar=true", customIcon: testTubeIcon, desc: "Leadership specific modules" },
+                    { name: "Thursday Manager Decks", url: "https://comcastcorp.sharepoint.com/teams/NED-NER-RetailLeaders/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=g44zIT&ovuser=906aefe9%2D76a7%2D4f65%2Db82d%2D5ec20775d5aa%2Csfarer525%40cable%2Ecomcast%2Ecom&OR=Teams%2DHL&CT=1759266028368&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNTA4MjgxNzkxMiIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D&CID=b3e9caa1%2D9023%2Da000%2D2677%2Dbff0cb2ccce0&cidOR=SPO&FolderCTID=0x0120008C4D267B38D0FE48848E737A6FC215D1&id=%2Fteams%2FNED%2DNER%2DRetailLeaders%2FShared%20Documents%2FGeneral%2FMeeting%20Decks", icon: "file-text", desc: "Meeting decks: in case you missed it" },
+                    { name: "SEPA Decks", url: "https://comcastcorp.sharepoint.com/sites/WNEProductAdvocacy/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FWNEProductAdvocacy%2FShared%20Documents%2FGeneral%2FSEPA%20Weekly%20Huddle%20Deck&viewid=b98ff6bb%2D65a0%2D445a%2Db45f%2Da5378c0c0770&p=true&ct=1764796503728&or=OWA%2DNT%2DMail&cid=02f58f74%2D007f%2D841e%2D3f40%2Db49da655a641&ga=1", icon: "file-text", desc: "Current SEPA Weekly Huddle Deck" },
+                    { name: "MyPerformance", url: "https://myperformance.comcast.net/performance/manager", icon: "bar-chart-3", desc: "Observations, huddles, coaching" },
+                    { name: "REG", url: "https://celestial.cable.comcast.com/knowledge/frontline-effectiveness/retail-excellence-guide/", icon: "clipboard-check", desc: "Retail Excellence Guide" },
+                ]
+            },
+            {
+                category: "Operations",
+                items: [
+                    { name: "Workday", url: "https://wd5.myworkday.com/comcast/d/home.htmld", icon: "briefcase", desc: "Input CA, SSIP, Check-ins, Trainings, CGP, Skills, and update personal details" },
+                    { name: "Expense Reporting", url: "https://myexpense.comcast.com/login", icon: "wallet", desc: "Submit for travel and spend on P-card" },
+                    { name: "NT Password Reset", url: "https://passwordreset.microsoftonline.com/", icon: "settings", desc: "Reset network credentials" },
+                    { name: "Facilities", url: "https://login.cbre.com/app/cbre_siefmprdcrscomcast_1/exkh21i9qcogQWDp04x7/sso/saml?SAMLRequest=PHNhbWxwOkF1dGhuUmVxdWVzdCBJRD0iX2I3MTRkN2E1LTVkNzYtNDJlMi04MWY1LTQ1ODliZjZmNzQ2MiIgVmVyc2lvbj0iMi4wIiBJc3N1ZUluc3RhbnQ9IjIwMjQtMDMtMDJUMjA6NDI6NDdaIiBQcm90b2NvbEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpIVFRQLVBPU1QiIEFzc2VydGlvbkNvbnN1bWVyU2VydmljZVVSTD0iaHR0cHM6Ly9lbnRlcnByaXNlLnNlcnZpY2VpbnNpZ2h0LmNicmUuY29tL1BSRDIwMjQ5Q1JTIiB4bWxuczpzYW1scD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnByb3RvY29sIj48c2FtbDpJc3N1ZXIgeG1sbnM6c2FtbD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiI%2baHR0cDovL3d3dy5va3RhLmNvbS9leGtoMjFpOXFjb2dRV0RwMDR4Nzwvc2FtbDpJc3N1ZXI%2bPHNhbWxwOk5hbWVJRFBvbGljeSBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnVuc3BlY2lmaWVkIiBBbGxvd0NyZWF0ZT0idHJ1ZSIgLz48c2FtbHA6UmVxdWVzdGVkQXV0aG5Db250ZXh0IENvbXBhcmlzb249ImV4YWN0Ij48c2FtbDpBdXRobkNvbnRleHRDbGFzc1JlZiB4bWxuczpzYW1sPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YWM6Y2xhc3NlczpQYXNzd29yZFByb3RlY3RlZFRyYW5zcG9ydDwvc2FtbDpBdXRobkNvbnRleHRDbGFzc1JlZj48L3NhbWxwOlJlcXVlc3RlZEF1dGhuQ29udGV4dD48L3NhbWxwOkF1dGhuUmVxdWVzdD4%3d", icon: "wrench", desc: "Tickets for facilities" },
+                    { name: "AED Check", url: "https://aedsuperstore.onlineoversight.com/site/login", customIcon: aedIcon, desc: "1st of each month" },
+                    { name: "EAS | Northeast Division", url: "https://comcastcorp.sharepoint.com/:u:/r/sites/hqeaseas/SitePages/Northeast-Division(1).aspx?csf=1&web=1&e=0co1sW", icon: "life-buoy", desc: "Employee Advisory Services & Support" },
+                    { name: "XISCO", url: "https://xisco.comcast.net/home/menu", icon: "search", desc: "Trade in lookup by IMEI" },
+                    { name: "Kiosk", url: "https://comcast.convergentcare.com/cmcst/demoDashboard.jsp", icon: "dollar-sign", desc: "End of day report for cash on kiosk" },
+                    { name: "Xinventory", url: "https://cceis.mintek.com/xInventory/dashboard", customIcon: barcodeIcon, desc: "Shipping and receiving, counts" },
+                    { name: "XVIP", url: "https://xvip.merchandising.cloud/store/locations", customIcon: mapIcon, desc: "Resets, ordering signage/tags/brochures" },
+                    { name: "Get There", url: "https://wx1.getthere.net/DispatcherServlet?requestType=logininq&site=comcast", icon: "plane", desc: "travel/car/hotel" },
+                    { name: "Drug/Alcohol Suspicion", url: "https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:6171cd03-db01-4601-a384-94be541ed725", icon: "alert-triangle", desc: "Reporting guidelines" },
+                    { name: "Porting Hub", url: "https://bailey-west.github.io/PortingAssistant/", customIcon: crispPhoneIcon, desc: "Xfinity Porting Hub" },
+                ]
+            },
+            {
+                category: "Employee Resources",
+                items: [
+                    { name: "Mysedgwick", url: "https://claims.mysedgwick.com/", icon: "umbrella", desc: "Leaves, claims, and disability management" },
+                    { name: "Rexi", url: "https://www.rexiresale.com/pages/enter-otp", icon: "smartphone", desc: "Like new Xfinity locked mobile devices" },
+                ]
+            },
+            {
+                category: "Escalations/Elevations",
+                items: [
+                    { name: "JIRA", url: "https://npselevations.sys.comcast.net/secure/Dashboard.jspa?selectPageId=12001", icon: "alert-circle", desc: "NPS Elevations & Ticket Management" },
+                    { name: "DPP Credit Increase", url: "https://app.smartsheet.com/b/form/db2b1ee2d8424fbb950c13fd2c18d332", icon: "dollar-sign", desc: "Increase DPP/lines after 6 months" },
+                    { name: "XM Escalations", url: "https://comcastcorp.sharepoint.com/:p:/t/NED-NER-RetailLeaders/ERW7J4MiQgRHhyc4WE4MJ2gBlgCqZUpZEv0xEw-X6oA6iA?e=cbBDor", customIcon: exclamationIcon, desc: "Guidebook: ECM pathways for XM" },
+                    { name: "Cx Escalations Form", url: "https://app.smartsheet.com/b/form/6299c669e29547269c9638d157a14e2d", icon: "file-warning", desc: "Submit customer escalations" },
+                    { name: "BP Escalation Form", url: "https://app.smartsheet.com/b/form/1aad1246a91048b5923b9cd49e323dff", icon: "file-warning", desc: "Business Partner escalations" },
+                ]
+            },
+            {
+                category: "Customer Experience",
+                items: [
+                    { name: "tNPS - Medallia", url: "https://comcast.medallia.com/sso/comcast/samlRequest.do?goToUrl=https%3A%2F%2Fcomcast.medallia.com%2Fsso%2Fcomcast%2Fpages%2F878%3FroleId%3D91333%26f.question-score%3Dq_comcast_assisted_sms_ltr_scale11%26f.pfug_%255BCOMCAST_NATIONAL%255Dlocation%3D2842944%26f.timeperiod%3D100000022%26f.reporting-date%3De_responsedate%26alreftoken%3D%25226f72e04b0ed76f1d28911180c95fd26e%2522", icon: "smile", desc: "Store scores, alerts, TTA, issue resolve" },
+                    { name: "Incentive Tracker", url: "https://www.xfinityincentivetracker.com/track", icon: "credit-card", desc: "Tracks gift cards" },
+                    { name: "Customer Feedback", url: "https://collect.iperceptions.com/?lID=1&rn=123531&pID=1&hs1=102214&hs2=91787&siteID=1&referrer=Link&sdfc=03b756c0-123531-0dcbb1db-cd59-44d5-8c25-4e78d3da0dac&source=91787&destination=commentcard&width=680&height=750&AspxAutoDetectCookieSupport=1", icon: "users", desc: "Used as exit interview for Cx" },
+                    { name: "Channel Lineups", url: "https://xfinitylineup.brandsrv.com/resiwk/clurclookup.aspx", customIcon: tvIcon, desc: "Print channel guides by city" },
+                    { name: "Business Advantage", url: "https://login.microsoftonline.com/906aefe9-76a7-4f65-b82d-5ec20775d5aa/saml2?SAMLRequest=jZHNasMwEIRfxege23JkqgjboMQJBFIocdtDb6qyJQZLcrVyUvr0dRxyKv057rIzzDdboDJdL%2bQQjnYP7wNgiD5MZ7Ekg7fCKWxRWGUARdCikfc7kcWpMBDUQQVFom1dkg1nNedcyvmSsRVdcsbmd7lka57RtF6sSfQMHltnSzKKRw3iAFuLQdkwrtIsn1E6y%2fgj5YJSkefxgrOXy92DQmxPUJI31SGQSCKCD6PTylkcDPgG%2fKnV8LTfleQYQo8iSc7nc6yd0QrDa%2fvZgTrgZU6aETX5yYFcscXUx%2b%2fwvXfBadeRaOO8hqm7W8KqmOD8f0pUtyik%2biN6kVxdqyL5%2fq%2fqCw%3d%3d&sso_reload=true&sso_nonce=AwABEgEAAAADAOz_BQD0_6VzpLUgXpgkYFAL5zuW8sh3YGh3imn7FOxDNIcJyF3ivB5jynrVI8cmieB3-Ju_W5i7PKSYfVohEuJRN_omMBsgAA&client-request-id=7d163960-b644-4807-8619-96f847c05c91&mscrid=7d163960-b644-4807-8619-96f847c05c91", icon: "briefcase", desc: "Submit business leads" },
+                ]
+            }
+        ];
+
+        const directoryData = [
+            { id: 1, name: "Customer IVR", role: "General Support", dept: "Customer Care", email: "-", phone: "(800) 934-6489" },
+            { id: 2, name: "CB Customer IVR", role: "Business Support", dept: "Comcast Business", email: "-", phone: "(800) 391-3000" },
+            { id: 3, name: "Customer XM Support", role: "Mobile Support", dept: "Xfinity Mobile", email: "-", phone: "(888) 934-6489" },
+            { id: 4, name: "Customer Fraud Dept (CSA)", role: "Security & Fraud", dept: "CSA", email: "-", phone: "(844) 335-8719" },
+            { id: 5, name: "Internet Essentials", role: "Program Support", dept: "Internet Essentials", email: "-", phone: "(855) 846-8376" },
+            { id: 6, name: "COE Tier 2", role: "Tier 2 Support", dept: "Technical Ops", email: "-", phone: "(866) 461-0805" },
+            { id: 7, name: "CBM Pre/Post Sale Support", role: "Sales Support", dept: "Comcast Business", email: "-", phone: "(844) 963-0210" },
+            { id: 8, name: "TPV", role: "Verification", dept: "Sales Ops", email: "-", phone: "(855) 423-9888" },
+            { id: 9, name: "Landline Porting Help", role: "Porting", dept: "Voice Services", email: "-", phone: "(877) 397-9734" },
+            { id: 10, name: "Customer XM Int'l Support", role: "Global Support", dept: "Xfinity Mobile", email: "-", phone: "(720) 728-5462" },
+            { id: 11, name: "HRSS", role: "Employee Services", dept: "HR", email: "-", phone: "(877) 909-4748" },
+            { id: 12, name: "Assurant Claim Filing", role: "Claims", dept: "Device Protection", email: "-", phone: "(855) 884-9771" },
+            { id: 13, name: "Support NOW", role: "Technical Support", dept: "IT Services", email: "-", phone: "(888) 570-0778" },
+            { id: 14, name: "Cx w/ Disabilities", role: "Accessibility Support", dept: "Customer Care", email: "-", phone: "(855) 270-0379" },
+            { id: 15, name: "IVR Verbal Consent", role: "Consent Verification", dept: "Sales Ops", email: "-", phone: "(844) 963-0043" },
+            { id: 16, name: "Unicall (Incident Reporting)", role: "Claims/Incidents", dept: "Security", email: "-", phone: "(800) 864-2255" },
+        ];
+
+        // --- RENDER FUNCTIONS ---
+
+        // Helper to generate a single card HTML
+        function getCardHtml(item, isFav = false) {
+            const isFavorited = favorites.includes(item.name);
+            const favIconClass = isFavorited ? "fill-yellow-400 text-yellow-400" : "text-slate-300 dark:text-slate-600 hover:text-yellow-400";
+            
+            let iconHtml;
+            if (item.customIcon) {
+                iconHtml = item.customIcon;
+            } else {
+                iconHtml = `<i data-lucide="${item.icon}" class="w-5 h-5 text-white dark:text-black"></i>`;
+            }
+
+            return `
+            <div class="tool-card group relative flex flex-col p-4 rounded-xl bg-white dark:bg-slate-800 shadow-lg dark:shadow-none dark:border dark:border-slate-700">
+                <button onclick="toggleFavorite('${item.name}')" class="absolute top-3 right-3 p-1 z-10 transition-colors">
+                    <i data-lucide="star" class="w-5 h-5 ${favIconClass}"></i>
+                </button>
+                <a href="${item.url}" target="_blank" class="flex-grow flex flex-col">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="p-2 bg-black dark:bg-white rounded-xl flex items-center justify-center">
+                            ${iconHtml}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-xfinity dark:group-hover:text-xfinity-light transition-colors">${item.name}</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
+                    </div>
+                </a>
+            </div>`;
+        }
+
+        function renderTools() {
+            // 1. Render Favorites Section
+            const favContainer = document.getElementById('favorites-container');
+            const favSection = document.getElementById('favorites-section');
+            
+            // Find object details for favorited names
+            const favItems = [];
+            toolsData.forEach(cat => {
+                cat.items.forEach(item => {
+                    if (favorites.includes(item.name)) favItems.push(item);
+                });
+            });
+
+            if (favItems.length > 0) {
+                favContainer.innerHTML = favItems.map(item => getCardHtml(item, true)).join('');
+                favSection.classList.remove('hidden');
+            } else {
+                favSection.classList.add('hidden');
+            }
+
+            // 2. Render Main Tools List
+            const container = document.getElementById('tools-container');
+            let html = '';
+
+            toolsData.forEach(section => {
+                let itemsHtml = '';
+                let visibleCount = 0;
+
+                section.items.forEach(item => {
+                    itemsHtml += getCardHtml(item);
+                });
+
+                // Wrapper div for category filtering
+                html += `
+                <div class="tool-category-section">
+                    <div class="mb-6 border-b border-slate-100 dark:border-slate-800 pb-2 text-left">
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">${section.category}</h3>
+                    </div>
+                    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                        ${itemsHtml}
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+            
+            // Re-run filter if search is active
+            filterTools();
+            lucide.createIcons();
+        }
+
+        function renderDirectory(data) {
+            const tbody = document.getElementById('directory-body');
+            const noResults = document.getElementById('no-results');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            let html = '';
+            data.forEach(person => {
+                const initial = person.name.charAt(0);
+                const emailHtml = person.email !== '-' ? `<a href="mailto:${person.email}" class="flex items-center hover:text-xfinity dark:hover:text-xfinity-light"><i data-lucide="mail" class="w-4 h-4 mr-2"></i>${person.email}</a>` : '';
+                
+                html += `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black font-bold text-sm">
+                                ${initial}
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-bold text-slate-900 dark:text-white">${person.name}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-slate-600 dark:text-slate-300">${person.role}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                            ${person.dept}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                        <div class="flex flex-col space-y-1">
+                            ${emailHtml}
+                            <a href="tel:${person.phone}" class="flex items-center hover:text-xfinity dark:hover:text-xfinity-light transition-colors">
+                                <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+                                ${person.phone}
+                            </a>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button onclick="copyPhone('${person.phone}', this)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 hover:text-xfinity dark:hover:text-xfinity-light transition-colors" title="Copy Phone Number">
+                            <i data-lucide="copy" class="w-5 h-5"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // --- ACTIONS ---
+
+        function toggleFavorite(toolName) {
+            if (favorites.includes(toolName)) {
+                favorites = favorites.filter(n => n !== toolName);
+            } else {
+                favorites.push(toolName);
+            }
+            localStorage.setItem('leaderHubFavorites', JSON.stringify(favorites));
+            renderTools(); // Re-render to update UI
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
+            const icon = document.getElementById('theme-icon');
+
+            if (isDark) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.setAttribute('data-lucide', 'moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.setAttribute('data-lucide', 'sun');
+            }
+            lucide.createIcons();
+        }
+
+        function switchTab(tabId) {
+            const dashboardView = document.getElementById('view-dashboard');
+            const directoryView = document.getElementById('view-directory');
+            const dashboardBtn = document.getElementById('nav-dashboard');
+            const directoryBtn = document.getElementById('nav-directory');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            // Close mobile menu
+            mobileMenu.classList.add('hidden');
+
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (tabId === 'dashboard') {
+                dashboardView.classList.remove('hidden');
+                directoryView.classList.add('hidden');
+                
+                // Active Styling
+                dashboardBtn.classList.add('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                dashboardBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                
+                // Inactive Styling
+                directoryBtn.classList.remove('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                directoryBtn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+
+            } else {
+                dashboardView.classList.add('hidden');
+                directoryView.classList.remove('hidden');
+                
+                // Active Styling
+                directoryBtn.classList.add('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                directoryBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                
+                // Inactive Styling
+                dashboardBtn.classList.remove('border-black', 'dark:border-white', 'text-black', 'dark:text-white');
+                dashboardBtn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function filterTools() {
+            const term = document.getElementById('tool-search').value.toLowerCase();
+            const sections = document.querySelectorAll('.tool-category-section');
+            
+            sections.forEach(section => {
+                let hasVisibleItems = false;
+                const cards = section.querySelectorAll('.tool-card');
+                
+                cards.forEach(card => {
+                    // Check if it's the favorites card logic or normal card
+                    const name = card.querySelector('h4').textContent.toLowerCase();
+                    const desc = card.querySelector('p').textContent.toLowerCase();
+                    
+                    if (name.includes(term) || desc.includes(term)) {
+                        card.style.display = 'flex';
+                        hasVisibleItems = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (hasVisibleItems) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        function filterDirectory() {
+            const term = document.getElementById('directory-search').value.toLowerCase();
+            const filtered = directoryData.filter(p => 
+                p.name.toLowerCase().includes(term) ||
+                p.role.toLowerCase().includes(term) ||
+                p.dept.toLowerCase().includes(term)
+            );
+            renderDirectory(filtered);
+        }
+
+        function copyPhone(text, btnElement) {
+            navigator.clipboard.writeText(text);
+            
+            // Change icon to check
+            btnElement.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-green-600 dark:text-green-400"></i>`;
+            lucide.createIcons();
+
+            // Revert after 2 seconds
+            setTimeout(() => {
+                btnElement.innerHTML = `<i data-lucide="copy" class="w-5 h-5"></i>`;
+                lucide.createIcons();
+            }, 2000);
+        }
+
+        // --- INIT ---
+        window.onload = function() {
+            renderTools();
+            renderDirectory(directoryData);
+            
+            // Set initial icon for theme
+            const isDark = document.documentElement.classList.contains('dark');
+            const icon = document.getElementById('theme-icon');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            
+            lucide.createIcons();
+        };
+
+    </script>
+</body>
+</html>
