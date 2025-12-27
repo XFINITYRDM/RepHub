@@ -33,38 +33,31 @@
                             green: '#3FA535',
                         }
                     },
-                    animation: {
-                        'gradient-x': 'gradient-x 15s ease infinite',
-                    },
-                    keyframes: {
-                        'gradient-x': {
-                            '0%, 100%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'left center'
-                            },
-                            '50%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'right center'
-                            },
-                        },
-                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(0, 122, 201, 0.3)',
+                        'glow-hover': '0 0 25px rgba(0, 122, 201, 0.5)',
+                    }
                 }
             }
         }
     </script>
 
     <style>
-        /* Minimalist Font Import */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        /* Modern Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light slate background */
+        }
+        .dark body {
+            background-color: #0f172a;
         }
 
         /* Smooth Transitions */
-        .fade-in { animation: fadeIn 0.4s ease-out; }
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -72,68 +65,74 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* NBC Gradient Utilities */
-        .nbc-gradient-bg {
-            background: linear-gradient(to right, #FDB813, #F58025, #D52B1E, #6F2C91, #007AC9, #3FA535);
-        }
-        
-        .nbc-gradient-text {
-            background: linear-gradient(to right, #FDB813, #F58025, #D52B1E, #6F2C91, #007AC9, #3FA535);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% auto;
-            animation: shine 5s linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        /* Card Styles */
-        .tool-card {
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* Vibrant Hero Gradient */
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             position: relative;
-            z-index: 1;
             overflow: hidden;
         }
         
-        /* Colorful hover border effect */
-        .tool-card::before {
-            content: "";
+        /* Animated Abstract Shapes in Hero */
+        .hero-gradient::before {
+            content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(to right, #FDB813, #F58025, #D52B1E, #6F2C91, #007AC9, #3FA535);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(111, 44, 145, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse-slow 8s infinite alternate;
+        }
+        .hero-gradient::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 122, 201, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse-slow 10s infinite alternate-reverse;
         }
 
+        @keyframes pulse-slow {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        /* Modern Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Tool Card Interactions */
+        .tool-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
         .tool-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        .tool-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        /* Subtle background mesh */
-        .bg-mesh {
-            background-color: #ffffff;
-            background-image: radial-gradient(at 0% 0%, rgba(253, 184, 19, 0.05) 0px, transparent 50%),
-                              radial-gradient(at 100% 0%, rgba(0, 122, 201, 0.05) 0px, transparent 50%);
-        }
-        .dark .bg-mesh {
-            background-color: #0f172a;
-            background-image: radial-gradient(at 0% 0%, rgba(253, 184, 19, 0.03) 0px, transparent 50%),
-                              radial-gradient(at 100% 0%, rgba(111, 44, 145, 0.05) 0px, transparent 50%);
-        }
+        /* Custom Icon Gradients */
+        .icon-bg-day { background: linear-gradient(135deg, #FDB813, #F58025); }
+        .icon-bg-ops { background: linear-gradient(135deg, #007AC9, #6F2C91); }
+        .icon-bg-hr { background: linear-gradient(135deg, #3FA535, #007AC9); }
+        .icon-bg-escalation { background: linear-gradient(135deg, #D52B1E, #F58025); }
+        .icon-bg-cx { background: linear-gradient(135deg, #6F2C91, #D52B1E); }
+        
     </style>
 
-    <!-- Dark Mode Init Script (Runs before body loads to prevent flash) -->
+    <!-- Dark Mode Init Script -->
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -142,103 +141,102 @@
         }
     </script>
 </head>
-<body class="bg-mesh text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+<body class="min-h-screen flex flex-col transition-colors duration-300">
 
-    <!-- Header -->
-    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
-        <!-- NBC Gradient Top Border -->
-        <div class="h-1 nbc-gradient-bg w-full"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                        <!-- Icon Container with NBC colors -->
-                        <div class="relative w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden group">
-                            <div class="absolute inset-0 bg-slate-900 dark:bg-white group-hover:scale-110 transition-transform duration-500"></div>
-                            <i data-lucide="briefcase" class="relative z-10 text-white dark:text-black w-6 h-6"></i>
-                        </div>
-                        <span class="font-extrabold text-2xl tracking-tighter nbc-gradient-text">RepHub</span>
+    <!-- Hero Header Section -->
+    <header class="hero-gradient shadow-lg z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Top Bar -->
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-nbc-purple to-nbc-blue flex items-center justify-center shadow-lg ring-2 ring-white/20">
+                        <i data-lucide="zap" class="text-white w-6 h-6"></i>
                     </div>
-                    
-                    <!-- Desktop Nav -->
-                    <div class="hidden md:ml-12 md:flex md:space-x-8">
-                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="text-base font-bold border-b-2 border-nbc-purple text-slate-900 dark:text-white px-1 py-1 transition-all">
-                            Tools
-                        </button>
-                        <button onclick="switchTab('directory')" id="nav-directory" class="text-base font-medium text-slate-500 dark:text-slate-400 hover:text-nbc-blue border-b-2 border-transparent px-1 py-1 transition-all">
-                            Directory
-                        </button>
+                    <div>
+                        <span class="block text-2xl font-black tracking-tight text-white">RepHub</span>
+                        <span class="block text-xs text-slate-300 font-medium -mt-1 uppercase tracking-wider">Frontline Edition</span>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <!-- Nav Pills -->
+                    <div class="hidden md:flex bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/10">
+                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-900 bg-white shadow-sm">
+                            Tools
+                        </button>
+                        <button onclick="switchTab('directory')" id="nav-directory" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-300 hover:text-white">
+                            Directory
+                        </button>
+                    </div>
+
+                    <div class="h-8 w-px bg-white/20 mx-2 hidden md:block"></div>
+
                     <!-- Dark Mode Toggle -->
-                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                    <button onclick="toggleTheme()" class="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors backdrop-blur-sm">
                         <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
                     </button>
 
                     <!-- Mobile menu button -->
                     <div class="md:hidden">
-                        <button onclick="toggleMobileMenu()" class="p-2 rounded-md text-slate-900 dark:text-slate-100">
+                        <button onclick="toggleMobileMenu()" class="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
                             <i data-lucide="menu" class="w-6 h-6"></i>
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Mobile Nav Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shadow-xl">
-            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
-                <button onclick="switchTab('dashboard')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left border-l-4 border-nbc-purple pl-2">Tools Dashboard</button>
-                <button onclick="switchTab('directory')" class="block px-3 py-3 rounded-lg text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 text-left border-l-4 border-transparent pl-2 hover:border-nbc-blue">Directory</button>
+
+            <!-- Hero Welcome Message (Dashboard Only) -->
+            <div id="hero-welcome" class="py-8 md:py-12 fade-in">
+                <h1 class="text-3xl md:text-5xl font-bold text-white mb-2">
+                    Let's crush it today.
+                </h1>
+                <p class="text-slate-300 text-lg md:text-xl max-w-2xl">
+                    Everything you need to sell, serve, and succeed—right at your fingertips.
+                </p>
             </div>
         </div>
     </header>
 
+    <!-- Mobile Nav Panel -->
+    <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 absolute w-full z-40 top-20">
+        <div class="px-4 py-4 space-y-2">
+            <button onclick="switchTab('dashboard')" class="block w-full px-4 py-3 rounded-xl text-left font-bold text-white bg-white/10">Tools</button>
+            <button onclick="switchTab('directory')" class="block w-full px-4 py-3 rounded-xl text-left font-bold text-slate-400 hover:text-white hover:bg-white/5">Directory</button>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full relative z-0 -mt-6">
         
         <!-- VIEW: DASHBOARD (TOOLS) -->
         <div id="view-dashboard" class="fade-in">
             
-            <!-- Global Tool Search & Header -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
-                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-nbc-purple to-nbc-blue">Tools</span>
-                    </h1>
-                    <p class="text-lg text-slate-500 dark:text-slate-400">Access your mission-critical platforms.</p>
-                </div>
-                <div class="w-full md:w-1/3 relative group">
-                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-nbc-blue transition-colors"></i>
-                    </div>
-                    <input
-                        type="text"
-                        id="tool-search"
-                        onkeyup="filterTools()"
-                        class="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-800 border-2 border-transparent focus:border-nbc-blue rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-0 transition-all shadow-sm"
-                        placeholder="Quick find tools..."
-                    />
-                </div>
+            <!-- Floating Search Bar -->
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-10 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
+                <i data-lucide="search" class="text-slate-400 w-6 h-6"></i>
+                <input 
+                    type="text" 
+                    id="tool-search" 
+                    onkeyup="filterTools()"
+                    placeholder="Search apps, links, or keywords..." 
+                    class="bg-transparent border-none focus:ring-0 text-lg w-full text-slate-900 dark:text-white placeholder-slate-400"
+                >
             </div>
 
             <!-- Favorites Section (Hidden by default) -->
             <div id="favorites-section" class="hidden mb-12">
-                <div class="flex items-center gap-2 mb-4">
-                    <i data-lucide="star" class="w-5 h-5 text-nbc-yellow fill-nbc-yellow"></i>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Pinned Tools</h3>
+                <div class="flex items-center gap-2 mb-4 px-1">
+                    <div class="w-1 h-6 bg-nbc-yellow rounded-full"></div>
+                    <h3 class="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Quick Access</h3>
                 </div>
-                <div id="favorites-container" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                <div id="favorites-container" class="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     <!-- Favorites Injected Here -->
                 </div>
-                <hr class="mt-10 border-slate-200 dark:border-slate-800">
+                <div class="h-px bg-slate-200 dark:bg-slate-800 my-8"></div>
             </div>
 
             <!-- All Tools Container -->
-            <div id="tools-container" class="space-y-12">
+            <div id="tools-container" class="space-y-10">
                 <!-- Tools injected by JS -->
             </div>
             
@@ -246,31 +244,22 @@
 
         <!-- VIEW: DIRECTORY -->
         <div id="view-directory" class="hidden fade-in">
-            <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
-                         <span class="bg-clip-text text-transparent bg-gradient-to-r from-nbc-green to-nbc-blue">Directory</span>
-                    </h1>
-                    <p class="text-lg text-slate-500 dark:text-slate-400">Contact details for key departments.</p>
-                </div>
-                <div class="w-full md:w-1/3 relative group">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-nbc-green transition-colors"></i>
-                    </div>
-                    <input
-                        type="text"
-                        id="directory-search"
-                        onkeyup="filterDirectory()"
-                        class="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-800 border-2 border-transparent focus:border-nbc-green rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-0 transition-all shadow-sm"
-                        placeholder="Search name or role..."
-                    />
-                </div>
+            <!-- Directory Search -->
+             <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-8 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
+                <i data-lucide="users" class="text-slate-400 w-6 h-6"></i>
+                <input 
+                    type="text" 
+                    id="directory-search" 
+                    onkeyup="filterDirectory()"
+                    placeholder="Find a department or phone number..." 
+                    class="bg-transparent border-none focus:ring-0 text-lg w-full text-slate-900 dark:text-white placeholder-slate-400"
+                >
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-none overflow-hidden border border-slate-100 dark:border-slate-700">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700 overflow-hidden">
                 <div class="min-w-full overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-800/50">
+                        <thead class="bg-slate-50 dark:bg-slate-900">
                             <tr>
                                 <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name / Service</th>
                                 <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
@@ -279,7 +268,7 @@
                                 <th scope="col" class="relative px-6 py-4"><span class="sr-only">Actions</span></th>
                             </tr>
                         </thead>
-                        <tbody id="directory-body" class="bg-white dark:bg-slate-800 divide-y divide-slate-100 dark:divide-slate-700">
+                        <tbody id="directory-body" class="divide-y divide-slate-100 dark:divide-slate-700">
                             <!-- Directory rows injected by JS -->
                         </tbody>
                     </table>
@@ -297,57 +286,39 @@
         // --- STATE MANAGEMENT ---
         let favorites = JSON.parse(localStorage.getItem('leaderHubFavorites')) || [];
 
-        // --- CUSTOM SVG ICONS ---
-        // These are manually defined SVGs for tools that need specific branding or custom visuals.
-
-        const badDebtIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white dark:text-black"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="28" fill="currentColor" stroke="none">-$</text></svg>`;
-        
-        const retail360Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><text x="2" y="18" font-family="sans-serif" font-weight="900" font-size="18" fill="currentColor" stroke="none" style="letter-spacing:-1px">360</text><path d="M2 20 Q 20 24 38 18" stroke="currentColor" stroke-width="2" fill="none" /></svg>`;
-
-        const ecmIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white dark:text-black"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">ecm</text></svg>`;
-
-        const iqIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 32 24" fill="none" class="text-white dark:text-black"><text x="6" y="16" font-family="sans-serif" font-weight="bold" font-size="14" fill="currentColor" stroke="none">i</text><text x="11" y="18" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none">Q</text></svg>`;
-
-        const seasonalIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 20-8-8-8 8"/><path d="m4 4 8 8 8-8"/></svg>`;
-
-        const xchangeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="m18 6-12 12"/><path d="m6 6 16 16"/></svg>`;
-
-        const hub2uIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white dark:text-black"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">2U</text></svg>`;
-
-        const celestialIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>`;
-
-        const roadIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M4 19 L8 5"/><path d="M20 19 L16 5"/><line x1="12" y1="5" x2="12" y2="19" stroke-dasharray="4 2"/></svg>`;
-
-        const keyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>`;
-
-        const testTubeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/></svg>`;
-
-        const exclamationIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M12 2v14"/><path d="M12 22v.01"/></svg>`;
-
-        const barcodeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white dark:text-black"><path d="M2 5h2v14H2zm4 0h1v14H6zm3 0h2v14H9zm4 0h3v14h-3zm5 0h1v14h-1zm3 0h1v14h-1z"/></svg>`;
-
-        const mapIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>`;
-
-        const aedIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M13.5 7l-4 5h3l-1.5 5 5.5-6h-3l1.5-4z" fill="currentColor" stroke="none"/></svg>`;
-
-        const tvIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white dark:text-black"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>`;
-
-        const num1Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">1</text></svg>`;
-        const num2Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">2</text></svg>`;
-        const num3Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">3</text></svg>`;
-        const num4Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">4</text></svg>`;
-
-        const crispPhoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white dark:text-black"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+        // --- CUSTOM SVG ICONS (Reused from previous) ---
+        const badDebtIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="28" fill="currentColor" stroke="none">-$</text></svg>`;
+        const retail360Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><text x="2" y="18" font-family="sans-serif" font-weight="900" font-size="18" fill="currentColor" stroke="none" style="letter-spacing:-1px">360</text><path d="M2 20 Q 20 24 38 18" stroke="currentColor" stroke-width="2" fill="none" /></svg>`;
+        const ecmIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">ecm</text></svg>`;
+        const iqIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 32 24" fill="none" class="text-white"><text x="6" y="16" font-family="sans-serif" font-weight="bold" font-size="14" fill="currentColor" stroke="none">i</text><text x="11" y="18" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none">Q</text></svg>`;
+        const seasonalIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 20-8-8-8 8"/><path d="m4 4 8 8 8-8"/></svg>`;
+        const xchangeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m18 6-12 12"/><path d="m6 6 16 16"/></svg>`;
+        const hub2uIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">2U</text></svg>`;
+        const celestialIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>`;
+        const roadIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M4 19 L8 5"/><path d="M20 19 L16 5"/><line x1="12" y1="5" x2="12" y2="19" stroke-dasharray="4 2"/></svg>`;
+        const keyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>`;
+        const testTubeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/></svg>`;
+        const exclamationIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 2v14"/><path d="M12 22v.01"/></svg>`;
+        const barcodeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white"><path d="M2 5h2v14H2zm4 0h1v14H6zm3 0h2v14H9zm4 0h3v14h-3zm5 0h1v14h-1zm3 0h1v14h-1z"/></svg>`;
+        const mapIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>`;
+        const aedIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M13.5 7l-4 5h3l-1.5 5 5.5-6h-3l1.5-4z" fill="currentColor" stroke="none"/></svg>`;
+        const tvIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>`;
+        const num1Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">1</text></svg>`;
+        const num2Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">2</text></svg>`;
+        const num3Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">3</text></svg>`;
+        const num4Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">4</text></svg>`;
+        const crispPhoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
 
         // --- DATA ---
         const toolsData = [
             {
                 category: "Day to Day",
+                style: "icon-bg-day",
                 items: [
                     { name: "ECM", url: "https://ecm.comcast.com/ecm", customIcon: ecmIcon, desc: "Pathway to ticketing" },
                     { name: "ABT", url: "https://abt.cable.comcast.com/", icon: "home", desc: "New builds, modify existing address" },
                     { name: "Cash Management", url: "https://rposportal.comcast.com/cash-drawer", icon: "dollar-sign", desc: "Monthly Cash Audits, Cash Confirmation" },
-                    { name: "Einstein", url: "https://einstein360.cable.comcast.com/einstein_nxtgen#Layout=1", icon: "brain", desc: "Notes, billing, autopay, user profile, ITGs" },
+                    { name: "Einstein", url: "https://einstein360.cable.comcast.com/einstein_nxtgen#Layout=1", icon: "brain", desc: "Notes, billing, autopay, user profile" },
                     { name: "Retail 360", url: "https://retail360a.cable.comcast.com/login-nextgen#Layout=1", customIcon: retail360Icon, desc: "Launch XM, disconnects, manage equipment" },
                     { name: "Celestial", url: "https://celestial.cable.comcast.com/knowledge/?cb=1715089190584", customIcon: celestialIcon, desc: "Store Space/Queue, POS, apps, XM promotions" },
                     { name: "IQ", url: "https://comcast.infoquest.tv/Account/Disclaimer", customIcon: iqIcon, desc: "Commissions for team" },
@@ -363,6 +334,7 @@
             },
             {
                 category: "Training",
+                style: "icon-bg-ops",
                 items: [
                      { name: "Employee Handbook", url: "https://comcastcorp.sharepoint.com/sites/cn-hr/Shared%20Documents/Employee%20Handbook,%20Policies%20%26%20Guidelines/Employee_Handbook_Current.pdf", icon: "book", desc: "Policies & Guidelines" },
                      { name: "REG", url: "https://celestial.cable.comcast.com/knowledge/frontline-effectiveness/retail-excellence-guide/", icon: "clipboard-check", desc: "Retail Excellence Guide" },
@@ -370,6 +342,7 @@
             },
             {
                 category: "Audits / Surveys",
+                style: "icon-bg-escalation",
                 items: [
                     { name: "BA Self-Assessment Wk 1", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUNklMMzU3NlRQQ0NTM09ERFlMQklHS1FSOS4u&origin=Invitation&channel=0", customIcon: num1Icon, desc: "Week 1 Assessment" },
                     { name: "BA Self-Assessment Wk 2", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUQ0dYSVo5VUpFTUFJWDBSUUhPNjlMV1JFQi4u&origin=Invitation&channel=0", customIcon: num2Icon, desc: "Week 2 Assessment" },
@@ -380,8 +353,9 @@
             },
             {
                 category: "Operations",
+                style: "icon-bg-ops",
                 items: [
-                    { name: "Workday", url: "https://wd5.myworkday.com/comcast/d/home.htmld", icon: "briefcase", desc: "Input CA, SSIP, Check-ins, Trainings, CGP, Skills, and update personal details" },
+                    { name: "Workday", url: "https://wd5.myworkday.com/comcast/d/home.htmld", icon: "briefcase", desc: "Input CA, SSIP, Check-ins, Trainings, CGP, Skills" },
                     { name: "Expense Reporting", url: "https://myexpense.comcast.com/login", icon: "wallet", desc: "Submit for travel and spend on P-card" },
                     { name: "NT Password Reset", url: "https://passwordreset.microsoftonline.com/", icon: "settings", desc: "Reset network credentials" },
                     { name: "XISCO", url: "https://xisco.comcast.net/home/menu", icon: "search", desc: "Trade in lookup by IMEI" },
@@ -394,6 +368,7 @@
             },
             {
                 category: "Employee Resources",
+                style: "icon-bg-hr",
                 items: [
                     { name: "Mysedgwick", url: "https://claims.mysedgwick.com/", icon: "umbrella", desc: "Leaves, claims, and disability management" },
                     { name: "Rexi", url: "https://www.rexiresale.com/pages/enter-otp", icon: "smartphone", desc: "Like new Xfinity locked mobile devices" },
@@ -401,6 +376,7 @@
             },
             {
                 category: "Escalations/Elevations",
+                style: "icon-bg-escalation",
                 items: [
                     { name: "JIRA", url: "https://npselevations.sys.comcast.net/secure/Dashboard.jspa?selectPageId=12001", icon: "alert-circle", desc: "NPS Elevations & Ticket Management" },
                     { name: "ASK HRSS", url: "https://comcasthr.zendesk.com/hc/en-us", icon: "users", desc: "Assorted HR escalations, live chat" },
@@ -408,6 +384,7 @@
             },
             {
                 category: "Customer Experience",
+                style: "icon-bg-cx",
                 items: [
                     { name: "tNPS - Medallia", url: "https://comcast.medallia.com/sso/comcast/samlRequest.do?goToUrl=https%3A%2F%2Fcomcast.medallia.com%2Fsso%2Fcomcast%2Fpages%2F878%3FroleId%3D91333%26f.question-score%3Dq_comcast_assisted_sms_ltr_scale11%26f.pfug_%255BCOMCAST_NATIONAL%255Dlocation%3D2842944%26f.timeperiod%3D100000022%26f.reporting-date%3De_responsedate%26alreftoken%3D%25226f72e04b0ed76f1d28911180c95fd26e%2522", icon: "smile", desc: "Store scores, alerts, TTA, issue resolve" },
                     { name: "Incentive Tracker", url: "https://www.xfinityincentivetracker.com/track", icon: "credit-card", desc: "Tracks gift cards" },
@@ -440,31 +417,34 @@
         // --- RENDER FUNCTIONS ---
 
         // Helper to generate a single card HTML
-        function getCardHtml(item, isFav = false) {
+        function getCardHtml(item, categoryStyle, isFav = false) {
             const isFavorited = favorites.includes(item.name);
-            const favIconClass = isFavorited ? "fill-nbc-yellow text-nbc-yellow" : "text-slate-300 dark:text-slate-600 hover:text-nbc-yellow";
+            const favIconClass = isFavorited ? "fill-nbc-yellow text-nbc-yellow" : "text-slate-300 dark:text-slate-500 hover:text-nbc-yellow";
             
             let iconHtml;
             if (item.customIcon) {
                 iconHtml = item.customIcon;
             } else {
-                iconHtml = `<i data-lucide="${item.icon}" class="w-5 h-5 text-white dark:text-black"></i>`;
+                iconHtml = `<i data-lucide="${item.icon}" class="w-6 h-6 text-white"></i>`;
             }
 
+            // Determine gradient class
+            const bgClass = isFav ? "bg-slate-900 dark:bg-slate-700" : categoryStyle;
+
             return `
-            <div class="tool-card group relative flex flex-col p-4 rounded-xl bg-white dark:bg-slate-800 shadow-lg dark:shadow-none dark:border dark:border-slate-700">
-                <button onclick="toggleFavorite('${item.name}')" class="absolute top-3 right-3 p-1 z-20 transition-colors">
+            <div class="tool-card group relative flex flex-col p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/30">
+                <button onclick="toggleFavorite('${item.name}')" class="absolute top-4 right-4 p-1 z-20 transition-colors">
                     <i data-lucide="star" class="w-5 h-5 ${favIconClass}"></i>
                 </button>
                 <a href="${item.url}" target="_blank" class="flex-grow flex flex-col relative z-10">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="p-2 bg-slate-900 dark:bg-white rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
+                    <div class="mb-4">
+                        <div class="w-12 h-12 rounded-full ${categoryStyle} flex items-center justify-center shadow-md transform transition-transform group-hover:scale-110 duration-300 ring-2 ring-white dark:ring-slate-700">
                             ${iconHtml}
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-nbc-blue transition-colors">${item.name}</h4>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-1 group-hover:text-nbc-blue transition-colors leading-tight">${item.name}</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium line-clamp-2">${item.desc}</p>
                     </div>
                 </a>
             </div>`;
@@ -479,12 +459,12 @@
             const favItems = [];
             toolsData.forEach(cat => {
                 cat.items.forEach(item => {
-                    if (favorites.includes(item.name)) favItems.push(item);
+                    if (favorites.includes(item.name)) favItems.push({ ...item, style: cat.style });
                 });
             });
 
             if (favItems.length > 0) {
-                favContainer.innerHTML = favItems.map(item => getCardHtml(item, true)).join('');
+                favContainer.innerHTML = favItems.map(item => getCardHtml(item, item.style, true)).join('');
                 favSection.classList.remove('hidden');
             } else {
                 favSection.classList.add('hidden');
@@ -496,19 +476,19 @@
 
             toolsData.forEach(section => {
                 let itemsHtml = '';
-                let visibleCount = 0;
 
                 section.items.forEach(item => {
-                    itemsHtml += getCardHtml(item);
+                    itemsHtml += getCardHtml(item, section.style);
                 });
 
                 // Wrapper div for category filtering
                 html += `
                 <div class="tool-category-section">
-                    <div class="mb-6 border-b border-slate-100 dark:border-slate-800 pb-2 text-left">
-                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">${section.category}</h3>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="h-8 w-1.5 rounded-full ${section.style}"></div>
+                        <h3 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">${section.category}</h3>
                     </div>
-                    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         ${itemsHtml}
                     </div>
                 </div>`;
@@ -538,14 +518,14 @@
                 const emailHtml = person.email !== '-' ? `<a href="mailto:${person.email}" class="flex items-center hover:text-nbc-blue"><i data-lucide="mail" class="w-4 h-4 mr-2"></i>${person.email}</a>` : '';
                 
                 html += `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-black font-bold text-sm">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-white font-bold text-sm shadow-sm ring-2 ring-white dark:ring-slate-800">
                                 ${initial}
                             </div>
                             <div class="ml-4">
-                                <div class="text-sm font-bold text-slate-900 dark:text-white">${person.name}</div>
+                                <div class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-nbc-blue transition-colors">${person.name}</div>
                             </div>
                         </div>
                     </td>
@@ -553,7 +533,7 @@
                         <div class="text-sm font-medium text-slate-600 dark:text-slate-300">${person.role}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
                             ${person.dept}
                         </span>
                     </td>
@@ -624,24 +604,30 @@
                 directoryView.classList.add('hidden');
                 
                 // Active Styling
-                dashboardBtn.classList.add('border-nbc-purple', 'text-slate-900', 'dark:text-white');
-                dashboardBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                dashboardBtn.classList.remove('text-slate-300', 'hover:text-white');
+                dashboardBtn.classList.add('text-slate-900', 'bg-white', 'shadow-sm');
                 
                 // Inactive Styling
-                directoryBtn.classList.remove('border-nbc-blue', 'text-slate-900', 'dark:text-white');
-                directoryBtn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                directoryBtn.classList.add('text-slate-300', 'hover:text-white');
+                directoryBtn.classList.remove('text-slate-900', 'bg-white', 'shadow-sm');
+                
+                // Show Welcome
+                document.getElementById('hero-welcome').classList.remove('hidden');
 
             } else {
                 dashboardView.classList.add('hidden');
                 directoryView.classList.remove('hidden');
                 
                 // Active Styling
-                directoryBtn.classList.add('border-nbc-blue', 'text-slate-900', 'dark:text-white');
-                directoryBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                directoryBtn.classList.remove('text-slate-300', 'hover:text-white');
+                directoryBtn.classList.add('text-slate-900', 'bg-white', 'shadow-sm');
                 
                 // Inactive Styling
-                dashboardBtn.classList.remove('border-nbc-purple', 'text-slate-900', 'dark:text-white');
-                dashboardBtn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                dashboardBtn.classList.add('text-slate-300', 'hover:text-white');
+                dashboardBtn.classList.remove('text-slate-900', 'bg-white', 'shadow-sm');
+                
+                // Hide Welcome to save space
+                 document.getElementById('hero-welcome').classList.add('hidden');
             }
         }
 
