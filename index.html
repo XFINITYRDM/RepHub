@@ -286,7 +286,7 @@
         // --- STATE MANAGEMENT ---
         let favorites = JSON.parse(localStorage.getItem('leaderHubFavorites')) || [];
 
-        // --- CUSTOM SVG ICONS (Reused from previous) ---
+        // --- CUSTOM SVG ICONS ---
         const badDebtIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="28" fill="currentColor" stroke="none">-$</text></svg>`;
         const retail360Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><text x="2" y="18" font-family="sans-serif" font-weight="900" font-size="18" fill="currentColor" stroke="none" style="letter-spacing:-1px">360</text><path d="M2 20 Q 20 24 38 18" stroke="currentColor" stroke-width="2" fill="none" /></svg>`;
         const ecmIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">ecm</text></svg>`;
@@ -421,6 +421,7 @@
             { id: 14, name: "Cx w/ Disabilities", role: "Accessibility Support", dept: "Customer Care", email: "-", phone: "(855) 270-0379" },
             { id: 15, name: "IVR Verbal Consent", role: "Consent Verification", dept: "Sales Ops", email: "-", phone: "(844) 963-0043" },
             { id: 16, name: "Unicall (Incident Reporting)", role: "Claims/Incidents", dept: "Security", email: "-", phone: "(800) 864-2255" },
+            { id: 17, name: "Shana Farer-Feld", role: "RDM", dept: "Retail Sales", email: "-", phone: "(603) 759-3491" },
         ];
 
         // --- RENDER FUNCTIONS ---
@@ -436,9 +437,6 @@
             } else {
                 iconHtml = `<i data-lucide="${item.icon}" class="w-6 h-6 text-white"></i>`;
             }
-
-            // Determine gradient class
-            const bgClass = isFav ? "bg-slate-900 dark:bg-slate-700" : categoryStyle;
 
             return `
             <div class="tool-card group relative flex flex-col p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/30">
@@ -654,7 +652,6 @@
                 const cards = section.querySelectorAll('.tool-card');
                 
                 cards.forEach(card => {
-                    // Check if it's the favorites card logic or normal card
                     const name = card.querySelector('h4').textContent.toLowerCase();
                     const desc = card.querySelector('p').textContent.toLowerCase();
                     
@@ -685,7 +682,6 @@
         }
 
         function copyPhone(text, btnElement) {
-            // Simplified fallback for iframes where navigator.clipboard might be blocked
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
@@ -696,7 +692,6 @@
             
             try {
                 document.execCommand('copy');
-                // Change icon to check on success
                 btnElement.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-nbc-green"></i>`;
                 lucide.createIcons();
             } catch (err) {
@@ -728,4 +723,3 @@
     </script>
 </body>
 </html>
-  
