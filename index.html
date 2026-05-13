@@ -4,38 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RepHub</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons (Updated to UMD build for better browser compatibility) -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
-    <!-- Configure Tailwind for Dark Mode & NBC Palette -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        slate: {
-                            850: '#1e293b',
-                            900: '#0f172a', 
-                        },
-                        // NBC Peacock Palette
+                        slate: { 850: '#1e293b', 900: '#0f172a' },
                         nbc: {
-                            yellow: '#FDB813',
-                            orange: '#F58025',
-                            red: '#D52B1E',
-                            purple: '#6F2C91',
-                            blue: '#007AC9',
-                            green: '#3FA535',
+                            yellow: '#FDB813', orange: '#F58025', red: '#D52B1E',
+                            purple: '#6F2C91', blue: '#007AC9', green: '#3FA535',
                         }
-                    },
-                    boxShadow: {
-                        'glow': '0 0 15px rgba(0, 122, 201, 0.3)',
-                        'glow-hover': '0 0 25px rgba(0, 122, 201, 0.5)',
                     }
                 }
             }
@@ -43,140 +26,57 @@
     </script>
 
     <style>
-        /* Modern Font Import */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Light slate background */
-        }
-        .dark body {
-            background-color: #0f172a;
-        }
-
-        /* Smooth Transitions */
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: background-color 0.3s ease; }
+        .dark body { background-color: #0f172a; }
         .fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Vibrant Hero Gradient */
-        .hero-gradient {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Animated Abstract Shapes in Hero */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); position: relative; overflow: hidden; }
         .hero-gradient::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
+            content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px;
             background: radial-gradient(circle, rgba(111, 44, 145, 0.15) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            z-index: 0;
-            animation: pulse-slow 8s infinite alternate;
+            border-radius: 50%; z-index: 0; animation: pulse-slow 8s infinite alternate;
         }
-        .hero-gradient::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            left: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 122, 201, 0.15) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            z-index: 0;
-            animation: pulse-slow 10s infinite alternate-reverse;
-        }
-
-        @keyframes pulse-slow {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        /* Modern Glass Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Tool Card Interactions */
-        .tool-card {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .tool-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Custom Icon Gradients */
+        @keyframes pulse-slow { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.1); opacity: 0.8; } }
+        .tool-card { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid transparent; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: #007AC933; }
         .icon-bg-day { background: linear-gradient(135deg, #FDB813, #F58025); }
         .icon-bg-ops { background: linear-gradient(135deg, #007AC9, #6F2C91); }
         .icon-bg-hr { background: linear-gradient(135deg, #3FA535, #007AC9); }
-        .icon-bg-escalation { background: linear-gradient(135deg, #D52B1E, #F58025); }
+        .icon-bg-audit { background: linear-gradient(135deg, #D52B1E, #F58025); }
         .icon-bg-cx { background: linear-gradient(135deg, #6F2C91, #D52B1E); }
-        
     </style>
 
-    <!-- Dark Mode Init Script -->
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
         }
     </script>
 </head>
-<body class="min-h-screen flex flex-col transition-colors duration-300">
+<body class="min-h-screen flex flex-col">
 
-    <!-- Hero Header Section -->
     <header class="hero-gradient shadow-lg z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <!-- Top Bar -->
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-nbc-purple to-nbc-blue flex items-center justify-center shadow-lg ring-2 ring-white/20">
                         <i data-lucide="zap" class="text-white w-6 h-6"></i>
                     </div>
                     <div>
-                        <span class="block text-2xl font-black tracking-tight text-white">RepHub</span>
+                        <span class="block text-2xl font-black tracking-tight text-white uppercase">RepHub</span>
                         <span class="block text-xs text-slate-300 font-medium -mt-1 uppercase tracking-wider">Frontline Edition</span>
                     </div>
                 </div>
                 
                 <div class="flex items-center gap-3">
-                    <!-- Nav Pills -->
                     <div class="hidden md:flex bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/10">
-                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-900 bg-white shadow-sm">
-                            Tools
-                        </button>
-                        <button onclick="switchTab('directory')" id="nav-directory" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-300 hover:text-white">
-                            Directory
-                        </button>
+                        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-900 bg-white shadow-sm">Tools</button>
+                        <button onclick="switchTab('directory')" id="nav-directory" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-300 hover:text-white">Directory</button>
                     </div>
-
                     <div class="h-8 w-px bg-white/20 mx-2 hidden md:block"></div>
-
-                    <!-- Dark Mode Toggle -->
                     <button onclick="toggleTheme()" class="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors backdrop-blur-sm">
                         <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
                     </button>
-
-                    <!-- Mobile menu button -->
                     <div class="md:hidden">
                         <button onclick="toggleMobileMenu()" class="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
                             <i data-lucide="menu" class="w-6 h-6"></i>
@@ -185,543 +85,233 @@
                 </div>
             </div>
 
-            <!-- Hero Welcome Message (Dashboard Only) -->
             <div id="hero-welcome" class="py-8 md:py-12 fade-in">
-                <h1 class="text-3xl md:text-5xl font-bold text-white mb-2">
-                    Let's crush it today.
-                </h1>
-                <p class="text-slate-300 text-lg md:text-xl max-w-2xl">
-                    Everything you need to sell, serve, and succeed—right at your fingertips.
-                </p>
+                <h1 class="text-3xl md:text-5xl font-bold text-white mb-2">Let's crush it today.</h1>
+                <p class="text-slate-300 text-lg md:text-xl max-w-2xl">Everything you need to sell, serve, and succeed—right at your fingertips.</p>
             </div>
         </div>
     </header>
 
-    <!-- Mobile Nav Panel -->
-    <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 absolute w-full z-40 top-20">
+    <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 absolute w-full z-40 top-20 shadow-2xl">
         <div class="px-4 py-4 space-y-2">
             <button onclick="switchTab('dashboard')" class="block w-full px-4 py-3 rounded-xl text-left font-bold text-white bg-white/10">Tools</button>
             <button onclick="switchTab('directory')" class="block w-full px-4 py-3 rounded-xl text-left font-bold text-slate-400 hover:text-white hover:bg-white/5">Directory</button>
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full relative z-0 -mt-6">
         
-        <!-- VIEW: DASHBOARD (TOOLS) -->
+        <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="fade-in">
-            
-            <!-- Floating Search Bar -->
             <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-10 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
                 <i data-lucide="search" class="text-slate-400 w-6 h-6"></i>
-                <input 
-                    type="text" 
-                    id="tool-search" 
-                    onkeyup="filterTools()"
-                    placeholder="Search apps, links, or keywords..." 
-                    class="bg-transparent border-none focus:ring-0 text-lg w-full text-slate-900 dark:text-white placeholder-slate-400"
-                >
+                <input type="text" id="tool-search" onkeyup="filterTools()" placeholder="Search apps, links, or keywords..." class="bg-transparent border-none focus:ring-0 text-lg w-full text-slate-900 dark:text-white placeholder-slate-400">
             </div>
 
-            <!-- Favorites Section (Hidden by default) -->
             <div id="favorites-section" class="hidden mb-12">
                 <div class="flex items-center gap-2 mb-4 px-1">
-                    <div class="w-1 h-6 bg-nbc-yellow rounded-full"></div>
-                    <h3 class="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Quick Access</h3>
+                    <div class="w-1.5 h-6 bg-nbc-yellow rounded-full"></div>
+                    <h3 class="text-lg font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest">Quick Access</h3>
                 </div>
-                <div id="favorites-container" class="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <!-- Favorites Injected Here -->
-                </div>
+                <div id="favorites-container" class="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
                 <div class="h-px bg-slate-200 dark:bg-slate-800 my-8"></div>
             </div>
 
-            <!-- All Tools Container -->
-            <div id="tools-container" class="space-y-10">
-                <!-- Tools injected by JS -->
-            </div>
-            
+            <div id="tools-container" class="space-y-12"></div>
         </div>
 
-        <!-- VIEW: DIRECTORY -->
+        <!-- DIRECTORY VIEW -->
         <div id="view-directory" class="hidden fade-in">
-            <!-- Directory Search -->
-             <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-8 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-8 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
                 <i data-lucide="users" class="text-slate-400 w-6 h-6"></i>
-                <input 
-                    type="text" 
-                    id="directory-search" 
-                    onkeyup="filterDirectory()"
-                    placeholder="Find a department or phone number..." 
-                    class="bg-transparent border-none focus:ring-0 text-lg w-full text-slate-900 dark:text-white placeholder-slate-400"
-                >
+                <input type="text" id="directory-search" onkeyup="filterDirectory()" placeholder="Find a department or phone number..." class="bg-transparent border-none focus:ring-0 text-lg w-full text-slate-900 dark:text-white placeholder-slate-400">
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700 overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-lg border border-slate-100 dark:border-slate-700 overflow-hidden">
                 <div class="min-w-full overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-900">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50">
                             <tr>
-                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name / Service</th>
-                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
-                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Department</th>
-                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Contact</th>
-                                <th scope="col" class="relative px-6 py-4"><span class="sr-only">Actions</span></th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Service Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Role</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Dept</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Phone</th>
+                                <th class="px-6 py-4 text-right"></th>
                             </tr>
                         </thead>
-                        <tbody id="directory-body" class="divide-y divide-slate-100 dark:divide-slate-700">
-                            <!-- Directory rows injected by JS -->
-                        </tbody>
+                        <tbody id="directory-body" class="divide-y divide-slate-100 dark:divide-slate-700"></tbody>
                     </table>
-                </div>
-                <div id="no-results" class="hidden px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                    No results found.
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- JavaScript Logic -->
     <script>
-        // --- STATE MANAGEMENT ---
         let favorites = JSON.parse(localStorage.getItem('leaderHubFavorites')) || [];
 
-        // --- CUSTOM SVG ICONS ---
-        const badDebtIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="28" fill="currentColor" stroke="none">-$</text></svg>`;
-        const retail360Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><text x="2" y="18" font-family="sans-serif" font-weight="900" font-size="18" fill="currentColor" stroke="none" style="letter-spacing:-1px">360</text><path d="M2 20 Q 20 24 38 18" stroke="currentColor" stroke-width="2" fill="none" /></svg>`;
-        const ecmIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">ecm</text></svg>`;
-        const iqIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 32 24" fill="none" class="text-white"><text x="6" y="16" font-family="sans-serif" font-weight="bold" font-size="14" fill="currentColor" stroke="none">i</text><text x="11" y="18" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none">Q</text></svg>`;
-        const seasonalIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 20-8-8-8 8"/><path d="m4 4 8 8 8-8"/></svg>`;
-        const xchangeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m18 6-12 12"/><path d="m6 6 16 16"/></svg>`;
-        const hub2uIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor" stroke="none" style="letter-spacing:-1px">2U</text></svg>`;
-        const celestialIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>`;
-        const roadIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M4 19 L8 5"/><path d="M20 19 L16 5"/><line x1="12" y1="5" x2="12" y2="19" stroke-dasharray="4 2"/></svg>`;
-        const keyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>`;
-        const testTubeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/></svg>`;
-        const exclamationIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 2v14"/><path d="M12 22v.01"/></svg>`;
-        const barcodeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white"><path d="M2 5h2v14H2zm4 0h1v14H6zm3 0h2v14H9zm4 0h3v14h-3zm5 0h1v14h-1zm3 0h1v14h-1z"/></svg>`;
-        const mapIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>`;
-        const aedIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M13.5 7l-4 5h3l-1.5 5 5.5-6h-3l1.5-4z" fill="currentColor" stroke="none"/></svg>`;
-        const tvIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>`;
-        const num1Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">1</text></svg>`;
-        const num2Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">2</text></svg>`;
-        const num3Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">3</text></svg>`;
-        const num4Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">4</text></svg>`;
-        const crispPhoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
-
-        // --- DATA ---
         const toolsData = [
             {
                 category: "Day to Day",
                 style: "icon-bg-day",
                 items: [
-                    { name: "ECM", url: "https://ecm.comcast.com/ecm", customIcon: ecmIcon, desc: "Pathway to ticketing" },
+                    { name: "ECM", url: "https://ecm.comcast.com/ecm", customIcon: `<svg width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="20" fill="currentColor">ecm</text></svg>`, desc: "Pathway to ticketing" },
                     { name: "BA Leads", url: "https://www.comcastbizleads.com/Saml/AssertionConsumerService", icon: "briefcase", desc: "Submit and track Business Advantage leads" },
                     { name: "Fetch It Up", url: "https://fetchitup.comcast.com/#/login", icon: "search", desc: "Quick account retrieval tool" },
                     { name: "ABT", url: "https://abt.cable.comcast.com/", icon: "home", desc: "New builds, modify existing address" },
-                    { name: "Cash Management", url: "https://rposportal.comcast.com/cash-drawer", icon: "dollar-sign", desc: "Monthly Cash Audits, Cash Confirmation" },
-                    { name: "Einstein", url: "https://einstein360.cable.comcast.com/einstein_nxtgen#Layout=1", icon: "brain", desc: "Notes, billing, autopay, user profile" },
-                    { name: "Retail 360", url: "https://retail360a.cable.comcast.com/login-nextgen#Layout=1", customIcon: retail360Icon, desc: "Launch XM, disconnects, manage equipment" },
-                    { name: "Celestial", url: "https://celestial.cable.comcast.com/knowledge/?cb=1715089190584", customIcon: celestialIcon, desc: "Store Space/Queue, POS, apps, XM promotions" },
-                    { name: "IQ", url: "https://comcast.infoquest.tv/Account/Disclaimer", customIcon: iqIcon, desc: "Commissions for team" },
-                    { name: "Xchange", url: "https://xchange3.performnet.com/?state=81d30384dc674c1b841d4f2f70277c95&code=bd48df34-b5ef-40ff-b72e-610ba405dd0c", customIcon: xchangeIcon, desc: "Xchange points, huddles, active incentives" },
-                    { name: "Seasonal Enrollment", url: "https://inseasonal.cable.comcast.com/home", customIcon: seasonalIcon, desc: "Manage seasonal program enrollments" },
-                    { name: "XOE", url: "https://xoe-portal.cws.xfinity.com/portal", icon: "briefcase", desc: "New connects processing" },
-                    { name: "UKG Pro", url: "https://comcastcable-sso.prd.mykronos.com/wfd/home?tenantId=comcastcable_prd_01#/", icon: "clock", desc: "Timekeeping and Scheduling" },
-                    { name: "ComcastNow", url: "https://comcastcorp.sharepoint.com/sites/ComcastNow", icon: "globe", desc: "A hub for information" },
-                    { name: "Digital T-Chart", url: "https://apps.powerapps.com/play/e/default-906aefe9-76a7-4f65-b82d-5ec20775d5aa/a/d583b73c-5d09-4401-a975-8486269d3afe?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&hint=6f4239e9-f868-462b-ba16-4356345ddaf0&source=sharebutton&sourcetime=1765394408673&source=teamsLinkUnfurling", icon: "layout", desc: "Comparison and sales tool" },
-                    { name: "Tech Spot", url: "https://techspot.comcast.com/techspot", icon: "settings", desc: "Onboarding (CSG, XOE, CELESTIAL, SALES ID)" },
-                    { name: "MyPerformance", url: "https://myperformance.comcast.net/performance/manager", icon: "bar-chart-3", desc: "Observations, huddles, coaching" },
-                    { name: "CSG Error Tool", url: "https://westapps.cable.comcast.com/commonerrors", icon: "alert-triangle", desc: "Common CSG error codes and fixes" },
-                    { name: "IE Portal", url: "https://support.internetessentials.com/en/Agent/", icon: "globe", desc: "Internet Essentials Agent Portal" },
-                    { name: "Digital Logs", url: "https://apps.powerapps.com/play/e/default-906aefe9-76a7-4f65-b82d-5ec20775d5aa/a/ecafd98b-7a86-40a0-aa6e-0ff7aeae24d9?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&hint=fb31f9de-8a76-4988-bf2f-79f4bcd5ee07&sourcetime=1750824210569&source=teamsLinkUnfurling", icon: "file-text", desc: "Access digital logs" },
+                    { name: "Cash Management", url: "https://rposportal.comcast.com/cash-drawer", icon: "dollar-sign", desc: "Monthly Cash Audits" },
+                    { name: "Einstein", url: "https://einstein360.cable.comcast.com/einstein_nxtgen#Layout=1", icon: "brain", desc: "Notes, billing, autopay" },
+                    { name: "Retail 360", url: "https://retail360a.cable.comcast.com/login-nextgen#Layout=1", customIcon: `<svg width="24" height="20" viewBox="0 0 40 24" fill="none" class="text-white"><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="18" fill="currentColor">360</text></svg>`, desc: "Manage equipment & XM" },
+                    { name: "Celestial", url: "https://celestial.cable.comcast.com/knowledge/", icon: "cloud", desc: "Queue, POS, apps, promotions" },
+                    { name: "IQ", url: "https://comcast.infoquest.tv/", icon: "bar-chart-2", desc: "Commissions for team" },
+                    { name: "Xchange", url: "https://xchange3.performnet.com/", icon: "zap", desc: "Points, huddles, active incentives" },
+                    { name: "XOE", url: "https://xoe-portal.cws.xfinity.com/", icon: "file-plus", desc: "New connects processing" },
+                    { name: "UKG Pro", url: "https://comcastcable-sso.prd.mykronos.com/wfd/home", icon: "clock", desc: "Timekeeping & Scheduling" },
+                    { name: "ComcastNow", url: "https://comcastcorp.sharepoint.com/sites/ComcastNow", icon: "info", desc: "Company news and info" },
+                    { name: "Tech Spot", url: "https://techspot.comcast.com/techspot", icon: "settings", desc: "Onboarding tools" },
+                    { name: "Digital Logs", url: "https://apps.powerapps.com/play/e/default-906aefe9-76a7-4f65-b82d-5ec20775d5aa/a/ecafd98b-7a86-40a0-aa6e-0ff7aeae24d9", icon: "clipboard", desc: "Access digital site logs" },
                 ]
             },
             {
                 category: "Training",
                 style: "icon-bg-ops",
                 items: [
-                     { name: "Employee Handbook", url: "https://comcastcorp.sharepoint.com/sites/cn-hr/Shared%20Documents/Employee%20Handbook,%20Policies%20%26%20Guidelines/Employee_Handbook_Current.pdf", icon: "book", desc: "Policies & Guidelines" },
-                     { name: "REG", url: "https://celestial.cable.comcast.com/knowledge/frontline-effectiveness/retail-excellence-guide/", icon: "clipboard-check", desc: "Retail Excellence Guide" },
-                     { name: "Product Lab", url: "https://apps.powerapps.com/play/e/115b9293-5645-e9ec-8d47-2bd945210012/a/d6fc576f-a54c-48d4-9f4d-81c8acf1a940?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&sourcetime=1739393990761&source=portal&hidenavbar=true", customIcon: testTubeIcon, desc: "Product knowledge modules" },
-                     { name: "Legacy HSD/TV", url: "https://comcastcorp-my.sharepoint.com/:w:/r/personal/sfarer525_cable_comcast_com/Documents/RDM%20Content/New%20Hire/SPEED%20AND%20TV%20TIERS.docx?d=w81f859530deb4ab3b3b12287c3d3921b&csf=1&web=1&e=1G2636", icon: "archive", desc: "Reference for legacy speeds and TV tiers" },
+                    { name: "Employee Handbook", url: "https://comcastcorp.sharepoint.com/sites/cn-hr/Shared%20Documents/Employee%20Handbook,%20Policies%20%26%20Guidelines/Employee_Handbook_Current.pdf", icon: "book-open", desc: "Policies & Guidelines" },
+                    { name: "REG", url: "https://celestial.cable.comcast.com/knowledge/frontline-effectiveness/retail-excellence-guide/", icon: "check-circle", desc: "Retail Excellence Guide" },
+                    { name: "Product Lab", url: "https://apps.powerapps.com/play/e/115b9293-5645-e9ec-8d47-2bd945210012", icon: "flask-conical", desc: "Product knowledge modules" },
                 ]
             },
             {
-                category: "Audits / Surveys",
-                style: "icon-bg-escalation",
-                items: [
-                    { name: "BA Self-Assessment Wk 1", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUNklMMzU3NlRQQ0NTM09ERFlMQklHS1FSOS4u&origin=Invitation&channel=0", customIcon: num1Icon, desc: "Week 1 Assessment" },
-                    { name: "BA Self-Assessment Wk 2", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUQ0dYSVo5VUpFTUFJWDBSUUhPNjlMV1JFQi4u&origin=Invitation&channel=0", customIcon: num2Icon, desc: "Week 2 Assessment" },
-                    { name: "BA Self-Assessment Wk 3", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUODZGNkk3SFJNNTRSMjBEWkNWQlM4TDRUSC4u&origin=Invitation&channel=0", customIcon: num3Icon, desc: "Week 3 Assessment" },
-                    { name: "BA Self-Assessment Wk 4", url: "https://forms.office.com/Pages/ResponsePage.aspx?id=6e9qkKd2ZU-4LV7CB3XVqqLTyGG-D8lAibnvQ9JuSghUQkQxTE9KMzNES1BRQUw0TEJBTlVVMDdWWi4u&origin=Invitation&channel=0", customIcon: num4Icon, desc: "Week 4 Assessment" },
-                    { name: "Retail Road to Awesome", url: "https://www.jotform.com/app/252685641483162?utm_source=jotform_pwa", customIcon: roadIcon, desc: "Retail performance audit" },
-                ]
-            },
-            {
-                category: "Operations",
-                style: "icon-bg-ops",
-                items: [
-                    { name: "Workday", url: "https://wd5.myworkday.com/comcast/d/home.htmld", icon: "briefcase", desc: "Input CA, SSIP, Check-ins, Trainings, CGP, Skills" },
-                    { name: "Expense Reporting", url: "https://myexpense.comcast.com/login", icon: "wallet", desc: "Submit for travel and spend on P-card" },
-                    { name: "NT Password Reset", url: "https://passwordreset.microsoftonline.com/", icon: "settings", desc: "Reset network credentials" },
-                    { name: "XISCO", url: "https://xisco.comcast.net/home/menu", icon: "search", desc: "Trade in lookup by IMEI" },
-                    { name: "Kiosk", url: "https://comcast.convergentcare.com/cmcst/demoDashboard.jsp", icon: "dollar-sign", desc: "End of day report for cash on kiosk" },
-                    { name: "Xinventory", url: "https://cceis.mintek.com/xInventory/dashboard", customIcon: barcodeIcon, desc: "Shipping and receiving, counts" },
-                    { name: "XVIP", url: "https://xvip.merchandising.cloud/store/locations", customIcon: mapIcon, desc: "Resets, ordering signage/tags/brochures" },
-                    { name: "Get There", url: "https://wx1.getthere.net/DispatcherServlet?requestType=logininq&site=comcast", icon: "plane", desc: "travel/car/hotel" },
-                    { name: "Porting Hub", url: "https://bailey-west.github.io/PortingAssistant/", customIcon: crispPhoneIcon, desc: "Xfinity Porting Hub" },
-                    { name: "QR Code XM", url: "https://celestial.cable.comcast.com/knowledge/article-info/?query=200826155424716", icon: "qr-code", desc: "XM QR Code Information" },
-                    { name: "Death of Cx", url: "https://einstein360.cable.comcast.com/proxy/assets/km/aem/comcast/residential/general/file-attachment/2021-09-09/Account%20Holder%20Deceased.pdf", icon: "file-x", desc: "Account Holder Deceased Form" },
-                    { name: "Transfer of Ownership", url: "https://einstein360.cable.comcast.com/proxy/assets/km/aem/comcast/residential/general/file-attachment/2021-09-09/Transfer%20of%20Ownership.pdf", icon: "file-input", desc: "Transfer of Ownership Form" },
-                    { name: "Legal Name Change", url: "https://einstein360.cable.comcast.com/proxy/assets/km/aem/comcast/residential/general/file-attachment/2021-09-09/Name%20Change.pdf", icon: "file-edit", desc: "Legal Name Change Form" },
-                ]
-            },
-            {
-                category: "Employee Resources",
+                category: "Operations & HR",
                 style: "icon-bg-hr",
                 items: [
-                    { name: "Mysedgwick", url: "https://claims.mysedgwick.com/", icon: "umbrella", desc: "Leaves, claims, and disability management" },
-                    { name: "Rexi", url: "https://www.rexiresale.com/pages/enter-otp", icon: "smartphone", desc: "Like new Xfinity locked mobile devices" },
+                    { name: "Workday", url: "https://wd5.myworkday.com/comcast/d/home.htmld", icon: "briefcase", desc: "Check-ins, Trainings, CA" },
+                    { name: "Expense Reporting", url: "https://myexpense.comcast.com/login", icon: "wallet", desc: "Travel & P-card" },
+                    { name: "XISCO", url: "https://xisco.comcast.net/home/menu", icon: "smartphone", desc: "Trade-in lookup by IMEI" },
+                    { name: "Xinventory", url: "https://cceis.mintek.com/xInventory/dashboard", icon: "barcode", desc: "Shipping & receiving" },
                 ]
             },
             {
-                category: "Escalations/Elevations",
-                style: "icon-bg-escalation",
-                items: [
-                    { name: "JIRA", url: "https://npselevations.sys.comcast.net/secure/Dashboard.jspa?selectPageId=12001", icon: "alert-circle", desc: "NPS Elevations & Ticket Management" },
-                    { name: "ASK HRSS", url: "https://comcasthr.zendesk.com/hc/en-us", icon: "users", desc: "Assorted HR escalations, live chat" },
-                ]
-            },
-            {
-                category: "Customer Experience",
+                category: "Elevations",
                 style: "icon-bg-cx",
                 items: [
-                    { name: "tNPS - Medallia", url: "https://comcast.medallia.com/sso/comcast/samlRequest.do?goToUrl=https%3A%2F%2Fcomcast.medallia.com%2Fsso%2Fcomcast%2Fpages%2F878%3FroleId%3D91333%26f.question-score%3Dq_comcast_assisted_sms_ltr_scale11%26f.pfug_%255BCOMCAST_NATIONAL%255Dlocation%3D2842944%26f.timeperiod%3D100000022%26f.reporting-date%3De_responsedate%26alreftoken%3D%25226f72e04b0ed76f1d28911180c95fd26e%2522", icon: "smile", desc: "Store scores, alerts, TTA, issue resolve" },
-                    { name: "Incentive Tracker", url: "https://www.xfinityincentivetracker.com/track", icon: "credit-card", desc: "Tracks gift cards" },
-                    { name: "Customer Feedback", url: "https://collect.iperceptions.com/?lID=1&rn=123531&pID=1&hs1=102214&hs2=91787&siteID=1&referrer=Link&sdfc=03b756c0-123531-0dcbb1db-cd59-44d5-8c25-4e78d3da0dac&source=91787&destination=commentcard&width=680&height=750&AspxAutoDetectCookieSupport=1", icon: "users", desc: "Used as exit interview for Cx" },
-                    { name: "Channel Lineups", url: "https://xfinitylineup.brandsrv.com/resiwk/clurclookup.aspx", customIcon: tvIcon, desc: "Print channel guides by city" },
-                    { name: "Business Advantage", url: "https://login.microsoftonline.com/906aefe9-76a7-4f65-b82d-5ec20775d5aa/saml2?SAMLRequest=jZHNasMwEIRfxege23JkqgjboMQJBFIocdtDb6qyJQZLcrVyUvr0dRxyKv057rIzzDdboDJdL%2bQQjnYP7wNgiD5MZ7Ekg7fCKWxRWGUARdCikfc7kcWpMBDUQQVFom1dkg1nNedcyvmSsRVdcsbmd7lka57RtF6sSfQMHltnSzKKRw3iAFuLQdkwrtIsn1E6y%2fgj5YJSkefxgrOXy92DQmxPUJI31SGQSCKCD6PTylkcDPgG%2fKnV8LTfleQYQo8iSc7nc6yd0QrDa%2fvZgTrgZU6aETX5yYFcscXUx%2b%2fwvXfBadeRaOO8hqm7W8KqmOD8f0pUtyik%2biN6kVxdqyL5%2fq%2fqCw%3d%3d&sso_reload=true&sso_nonce=AwABEgEAAAADAOz_BQD0_6VzpLUgXpgkYFAL5zuW8sh3YGh3imn7FOxDNIcJyF3ivB5jynrVI8cmieB3-Ju_W5i7PKSYfVohEuJRN_omMBsgAA&client-request-id=7d163960-b644-4807-8619-96f847c05c91&mscrid=7d163960-b644-4807-8619-96f847c05c91", icon: "briefcase", desc: "Submit business leads" },
+                    { name: "JIRA Access request form", url: "https://app.smartsheet.com/b/form/019cd8b044a07fc298b45cbb67ee652b", icon: "file-plus", desc: "Request access to the JIRA ticketing system" },
                 ]
             }
         ];
 
         const directoryData = [
-            { id: 1, name: "Customer IVR", role: "General Support", dept: "Customer Care", email: "-", phone: "(800) 934-6489" },
-            { id: 2, name: "CB Customer IVR", role: "Business Support", dept: "Comcast Business", email: "-", phone: "(800) 391-3000" },
-            { id: 3, name: "Customer XM Support", role: "Mobile Support", dept: "Xfinity Mobile", email: "-", phone: "(888) 934-6489" },
-            { id: 4, name: "Customer Fraud Dept (CSA)", role: "Security & Fraud", dept: "CSA", email: "-", phone: "(844) 335-8719" },
-            { id: 5, name: "Internet Essentials", role: "Program Support", dept: "Internet Essentials", email: "-", phone: "(855) 846-8376" },
-            { id: 6, name: "COE Tier 2", role: "Tier 2 Support", dept: "Technical Ops", email: "-", phone: "(866) 461-0805" },
-            { id: 7, name: "CBM Pre/Post Sale Support", role: "Sales Support", dept: "Comcast Business", email: "-", phone: "(844) 963-0210" },
-            { id: 8, name: "TPV", role: "Verification", dept: "Sales Ops", email: "-", phone: "(855) 423-9888" },
-            { id: 9, name: "Landline Porting Help", role: "Porting", dept: "Voice Services", email: "-", phone: "(877) 397-9734" },
-            { id: 10, name: "Customer XM Int'l Support", role: "Global Support", dept: "Xfinity Mobile", email: "-", phone: "(720) 728-5462" },
-            { id: 11, name: "HRSS", role: "Employee Services", dept: "HR", email: "-", phone: "(877) 909-4748" },
-            { id: 12, name: "Assurant Claim Filing", role: "Claims", dept: "Device Protection", email: "-", phone: "(855) 884-9771" },
-            { id: 13, name: "Support NOW", role: "Technical Support", dept: "IT Services", email: "-", phone: "(888) 570-0778" },
-            { id: 14, name: "Cx w/ Disabilities", role: "Accessibility Support", dept: "Customer Care", email: "-", phone: "(855) 270-0379" },
-            { id: 15, name: "IVR Verbal Consent", role: "Consent Verification", dept: "Sales Ops", email: "-", phone: "(844) 963-0043" },
-            { id: 16, name: "Unicall (Incident Reporting)", role: "Claims/Incidents", dept: "Security", email: "-", phone: "(800) 864-2255" },
-            { id: 17, name: "Shana Farer-Feld", role: "RDM", dept: "Retail Sales", email: "-", phone: "(603) 759-3491" },
+            { name: "Support NOW", role: "IT Support", dept: "IT", phone: "(888) 570-0778" },
+            { name: "Shana Farer-Feld", role: "RDM", dept: "Retail Sales", phone: "(603) 759-3491" },
+            { name: "Customer Care", role: "General Support", dept: "Care", phone: "(800) 934-6489" },
+            { name: "Xfinity Mobile", role: "Mobile Support", dept: "XM", phone: "(888) 934-6489" },
         ];
 
-        // --- RENDER FUNCTIONS ---
-
-        // Helper to generate a single card HTML
         function getCardHtml(item, categoryStyle, isFav = false) {
             const isFavorited = favorites.includes(item.name);
-            const favIconClass = isFavorited ? "fill-nbc-yellow text-nbc-yellow" : "text-slate-300 dark:text-slate-500 hover:text-nbc-yellow";
-            
-            let iconHtml;
-            if (item.customIcon) {
-                iconHtml = item.customIcon;
-            } else {
-                iconHtml = `<i data-lucide="${item.icon}" class="w-6 h-6 text-white"></i>`;
-            }
+            const favClass = isFavorited ? "fill-nbc-yellow text-nbc-yellow" : "text-slate-300 dark:text-slate-500 hover:text-nbc-yellow";
+            const iconHtml = item.customIcon ? item.customIcon : `<i data-lucide="${item.icon || 'link'}" class="w-6 h-6 text-white"></i>`;
 
             return `
-            <div class="tool-card group relative flex flex-col p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/30">
-                <button onclick="toggleFavorite('${item.name}')" class="absolute top-4 right-4 p-1 z-20 transition-colors">
-                    <i data-lucide="star" class="w-5 h-5 ${favIconClass}"></i>
+            <div class="tool-card group relative flex flex-col p-5 rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md dark:shadow-none">
+                <button onclick="toggleFavorite('${item.name}')" class="absolute top-4 right-4 p-1 z-20 transition-all active:scale-90">
+                    <i data-lucide="star" class="w-5 h-5 ${favClass}"></i>
                 </button>
-                <a href="${item.url}" target="_blank" class="flex-grow flex flex-col relative z-10">
+                <a href="${item.url}" target="_blank" class="flex-grow flex flex-col">
                     <div class="mb-4">
-                        <div class="w-12 h-12 rounded-full ${categoryStyle} flex items-center justify-center shadow-md transform transition-transform group-hover:scale-110 duration-300 ring-2 ring-white dark:ring-slate-700">
+                        <div class="w-12 h-12 rounded-2xl ${categoryStyle} flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-slate-700">
                             ${iconHtml}
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-1 group-hover:text-nbc-blue transition-colors leading-tight">${item.name}</h4>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium line-clamp-2">${item.desc}</p>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-1 leading-tight">${item.name}</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">${item.desc}</p>
                     </div>
                 </a>
             </div>`;
         }
 
         function renderTools() {
-            // 1. Render Favorites Section
-            const favContainer = document.getElementById('favorites-container');
-            const favSection = document.getElementById('favorites-section');
-            
-            // Find object details for favorited names
             const favItems = [];
-            toolsData.forEach(cat => {
-                cat.items.forEach(item => {
-                    if (favorites.includes(item.name)) favItems.push({ ...item, style: cat.style });
-                });
-            });
+            toolsData.forEach(cat => cat.items.forEach(i => { if (favorites.includes(i.name)) favItems.push({...i, style: cat.style}); }));
+            
+            const favSection = document.getElementById('favorites-section');
+            document.getElementById('favorites-container').innerHTML = favItems.map(i => getCardHtml(i, i.style, true)).join('');
+            favSection.style.display = favItems.length ? 'block' : 'none';
 
-            if (favItems.length > 0) {
-                favContainer.innerHTML = favItems.map(item => getCardHtml(item, item.style, true)).join('');
-                favSection.classList.remove('hidden');
-            } else {
-                favSection.classList.add('hidden');
-            }
-
-            // 2. Render Main Tools List
-            const container = document.getElementById('tools-container');
-            let html = '';
-
-            toolsData.forEach(section => {
-                let itemsHtml = '';
-
-                section.items.forEach(item => {
-                    itemsHtml += getCardHtml(item, section.style);
-                });
-
-                // Wrapper div for category filtering
-                html += `
-                <div class="tool-category-section">
+            document.getElementById('tools-container').innerHTML = toolsData.map(section => `
+                <div>
                     <div class="flex items-center gap-3 mb-6">
                         <div class="h-8 w-1.5 rounded-full ${section.style}"></div>
-                        <h3 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">${section.category}</h3>
+                        <h3 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight uppercase">${section.category}</h3>
                     </div>
-                    <div class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        ${itemsHtml}
+                    <div class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                        ${section.items.map(i => getCardHtml(i, section.style)).join('')}
                     </div>
-                </div>`;
-            });
-            container.innerHTML = html;
-            
-            // Re-run filter if search is active
-            filterTools();
+                </div>
+            `).join('');
             lucide.createIcons();
         }
 
-        function renderDirectory(data) {
-            const tbody = document.getElementById('directory-body');
-            const noResults = document.getElementById('no-results');
+        function renderDirectory() {
+            const term = document.getElementById('directory-search').value.toLowerCase();
+            const filtered = directoryData.filter(p => p.name.toLowerCase().includes(term) || p.dept.toLowerCase().includes(term));
             
-            if (data.length === 0) {
-                tbody.innerHTML = '';
-                noResults.classList.remove('hidden');
-                return;
-            } else {
-                noResults.classList.add('hidden');
-            }
-
-            let html = '';
-            data.forEach(person => {
-                const initial = person.name.charAt(0);
-                const emailHtml = person.email !== '-' ? `<a href="mailto:${person.email}" class="flex items-center hover:text-nbc-blue"><i data-lucide="mail" class="w-4 h-4 mr-2"></i>${person.email}</a>` : '';
-                
-                html += `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-white font-bold text-sm shadow-sm ring-2 ring-white dark:ring-slate-800">
-                                ${initial}
-                            </div>
-                            <div class="ml-4">
-                                <div class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-nbc-blue transition-colors">${person.name}</div>
-                            </div>
-                        </div>
+            document.getElementById('directory-body').innerHTML = filtered.map(p => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <td class="px-6 py-5 text-sm font-bold text-slate-900 dark:text-white">${p.name}</td>
+                    <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-300 font-medium">${p.role}</td>
+                    <td class="px-6 py-5"><span class="px-3 py-1 text-[10px] font-black uppercase rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">${p.dept}</span></td>
+                    <td class="px-6 py-5 text-sm text-slate-500 dark:text-slate-400 font-mono tracking-tight">${p.phone}</td>
+                    <td class="px-6 py-5 text-right">
+                        <button onclick="copyPhone('${p.phone}', this)" class="p-2 text-slate-400 hover:text-nbc-green transition-colors"><i data-lucide="copy" class="w-5 h-5"></i></button>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-slate-600 dark:text-slate-300">${person.role}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
-                            ${person.dept}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                        <div class="flex flex-col space-y-1">
-                            ${emailHtml}
-                            <a href="tel:${person.phone}" class="flex items-center hover:text-nbc-blue transition-colors">
-                                <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
-                                ${person.phone}
-                            </a>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button onclick="copyPhone('${person.phone}', this)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 hover:text-nbc-green transition-colors" title="Copy Phone Number">
-                            <i data-lucide="copy" class="w-5 h-5"></i>
-                        </button>
-                    </td>
-                </tr>`;
-            });
-            tbody.innerHTML = html;
-            lucide.createIcons();
-        }
-
-        // --- ACTIONS ---
-
-        function toggleFavorite(toolName) {
-            if (favorites.includes(toolName)) {
-                favorites = favorites.filter(n => n !== toolName);
-            } else {
-                favorites.push(toolName);
-            }
-            localStorage.setItem('leaderHubFavorites', JSON.stringify(favorites));
-            renderTools(); // Re-render to update UI
-        }
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.contains('dark');
-            const icon = document.getElementById('theme-icon');
-
-            if (isDark) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                icon.setAttribute('data-lucide', 'moon');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                icon.setAttribute('data-lucide', 'sun');
-            }
+                </tr>
+            `).join('');
             lucide.createIcons();
         }
 
         function switchTab(tabId) {
-            const dashboardView = document.getElementById('view-dashboard');
-            const directoryView = document.getElementById('view-directory');
-            const dashboardBtn = document.getElementById('nav-dashboard');
-            const directoryBtn = document.getElementById('nav-directory');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            // Close mobile menu
-            mobileMenu.classList.add('hidden');
-
-            // Scroll top
+            document.getElementById('view-dashboard').style.display = tabId === 'dashboard' ? 'block' : 'none';
+            document.getElementById('view-directory').style.display = tabId === 'directory' ? 'block' : 'none';
+            document.getElementById('nav-dashboard').className = tabId === 'dashboard' ? "px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-900 bg-white shadow-sm" : "px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-300 hover:text-white";
+            document.getElementById('nav-directory').className = tabId === 'directory' ? "px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-900 bg-white shadow-sm" : "px-6 py-2 rounded-full text-sm font-bold transition-all text-slate-300 hover:text-white";
+            document.getElementById('mobile-menu').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (tabId === 'dashboard') {
-                dashboardView.classList.remove('hidden');
-                directoryView.classList.add('hidden');
-                
-                // Active Styling
-                dashboardBtn.classList.remove('text-slate-300', 'hover:text-white');
-                dashboardBtn.classList.add('text-slate-900', 'bg-white', 'shadow-sm');
-                
-                // Inactive Styling
-                directoryBtn.classList.add('text-slate-300', 'hover:text-white');
-                directoryBtn.classList.remove('text-slate-900', 'bg-white', 'shadow-sm');
-                
-                // Show Welcome
-                document.getElementById('hero-welcome').classList.remove('hidden');
-
-            } else {
-                dashboardView.classList.add('hidden');
-                directoryView.classList.remove('hidden');
-                
-                // Active Styling
-                directoryBtn.classList.remove('text-slate-300', 'hover:text-white');
-                directoryBtn.classList.add('text-slate-900', 'bg-white', 'shadow-sm');
-                
-                // Inactive Styling
-                dashboardBtn.classList.add('text-slate-300', 'hover:text-white');
-                dashboardBtn.classList.remove('text-slate-900', 'bg-white', 'shadow-sm');
-                
-                // Hide Welcome to save space
-                 document.getElementById('hero-welcome').classList.add('hidden');
-            }
         }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-icon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
         }
 
         function filterTools() {
             const term = document.getElementById('tool-search').value.toLowerCase();
-            const sections = document.querySelectorAll('.tool-category-section');
-            
-            sections.forEach(section => {
-                let hasVisibleItems = false;
-                const cards = section.querySelectorAll('.tool-card');
-                
-                cards.forEach(card => {
-                    const name = card.querySelector('h4').textContent.toLowerCase();
-                    const desc = card.querySelector('p').textContent.toLowerCase();
-                    
-                    if (name.includes(term) || desc.includes(term)) {
-                        card.style.display = 'flex';
-                        hasVisibleItems = true;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                if (hasVisibleItems) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
-                }
+            document.querySelectorAll('.tool-card').forEach(c => {
+                const text = c.innerText.toLowerCase();
+                c.style.display = text.includes(term) ? 'flex' : 'none';
             });
         }
 
-        function filterDirectory() {
-            const term = document.getElementById('directory-search').value.toLowerCase();
-            const filtered = directoryData.filter(p => 
-                p.name.toLowerCase().includes(term) ||
-                p.role.toLowerCase().includes(term) ||
-                p.dept.toLowerCase().includes(term)
-            );
-            renderDirectory(filtered);
+        function filterDirectory() { renderDirectory(); }
+
+        function copyPhone(text, btn) {
+            const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            btn.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-nbc-green"></i>`; lucide.createIcons();
+            setTimeout(() => { btn.innerHTML = `<i data-lucide="copy" class="w-5 h-5"></i>`; lucide.createIcons(); }, 2000);
         }
 
-        function copyPhone(text, btnElement) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                btnElement.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-nbc-green"></i>`;
-                lucide.createIcons();
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-            }
-            
-            document.body.removeChild(textArea);
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
 
-            // Revert after 2 seconds
-            setTimeout(() => {
-                btnElement.innerHTML = `<i data-lucide="copy" class="w-5 h-5"></i>`;
-                lucide.createIcons();
-            }, 2000);
-        }
-
-        // --- INIT ---
-        window.onload = function() {
+        function toggleFavorite(name) {
+            favorites = favorites.includes(name) ? favorites.filter(f => f !== name) : [...favorites, name];
+            localStorage.setItem('leaderHubFavorites', JSON.stringify(favorites));
             renderTools();
-            renderDirectory(directoryData);
-            
-            // Set initial icon for theme
-            const isDark = document.documentElement.classList.contains('dark');
-            const icon = document.getElementById('theme-icon');
-            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-            
-            lucide.createIcons();
-        };
+        }
 
+        window.onload = () => { renderTools(); renderDirectory(); };
     </script>
 </body>
 </html>
