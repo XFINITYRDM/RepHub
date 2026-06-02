@@ -9,7 +9,6 @@
     <!-- Lucide Icons (Updated to UMD build for better browser compatibility) -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
-    <!-- Configure Tailwind for Dark Mode & NBC Palette -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -132,7 +131,6 @@
         
     </style>
 
-    <!-- Dark Mode Init Script -->
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -143,7 +141,6 @@
 </head>
 <body class="min-h-screen flex flex-col transition-colors duration-300">
 
-    <!-- Hero Header Section -->
     <header class="hero-gradient shadow-lg z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <!-- Top Bar -->
@@ -197,7 +194,6 @@
         </div>
     </header>
 
-    <!-- Mobile Nav Panel -->
     <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 absolute w-full z-40 top-20">
         <div class="px-4 py-4 space-y-2">
             <button onclick="switchTab('dashboard')" class="block w-full px-4 py-3 rounded-xl text-left font-bold text-white bg-white/10">Tools</button>
@@ -205,13 +201,11 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full relative z-0 -mt-6">
         
         <!-- VIEW: DASHBOARD (TOOLS) -->
         <div id="view-dashboard" class="fade-in">
             
-            <!-- Floating Search Bar -->
             <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-10 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
                 <i data-lucide="search" class="text-slate-400 w-6 h-6"></i>
                 <input 
@@ -235,7 +229,6 @@
                 <div class="h-px bg-slate-200 dark:bg-slate-800 my-8"></div>
             </div>
 
-            <!-- All Tools Container -->
             <div id="tools-container" class="space-y-10">
                 <!-- Tools injected by JS -->
             </div>
@@ -244,7 +237,6 @@
 
         <!-- VIEW: DIRECTORY -->
         <div id="view-directory" class="hidden fade-in">
-            <!-- Directory Search -->
              <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-8 flex items-center gap-4 border border-slate-100 dark:border-slate-700">
                 <i data-lucide="users" class="text-slate-400 w-6 h-6"></i>
                 <input 
@@ -309,7 +301,6 @@
         const num4Icon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white"><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="currentColor" stroke="none">4</text></svg>`;
         const crispPhoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
 
-        // --- DATA ---
         const toolsData = [
             {
                 category: "Day to Day",
@@ -335,6 +326,7 @@
                     { name: "CSG Error Tool", url: "https://westapps.cable.comcast.com/commonerrors", icon: "alert-triangle", desc: "Common CSG error codes and fixes" },
                     { name: "IE Portal", url: "https://support.internetessentials.com/en/Agent/", icon: "globe", desc: "Internet Essentials Agent Portal" },
                     { name: "Digital Logs", url: "https://apps.powerapps.com/play/e/default-906aefe9-76a7-4f65-b82d-5ec20775d5aa/a/ecafd98b-7a86-40a0-aa6e-0ff7aeae24d9?tenantId=906aefe9-76a7-4f65-b82d-5ec20775d5aa&hint=fb31f9de-8a76-4988-bf2f-79f4bcd5ee07&sourcetime=1750824210569&source=teamsLinkUnfurling", icon: "file-text", desc: "Access digital logs" },
+                    { name: "6th Gen Calculator", url: "https://xfinityrdm.github.io/XM-Calculator/", icon: "calculator", desc: "Xfinity Mobile 6th Gen Calculator" },
                 ]
             },
             {
@@ -425,6 +417,7 @@
             { id: 15, name: "IVR Verbal Consent", role: "Consent Verification", dept: "Sales Ops", email: "-", phone: "(844) 963-0043" },
             { id: 16, name: "Unicall (Incident Reporting)", role: "Claims/Incidents", dept: "Security", email: "-", phone: "(800) 864-2255" },
             { id: 17, name: "Shana Farer-Feld", role: "RDM", dept: "Retail Sales", email: "-", phone: "(603) 759-3491" },
+            { id: 18, name: "*New* Bulk COE", role: "Bulk Support", dept: "COE", email: "-", phone: "(833) 501-1970" },
         ];
 
         // --- RENDER FUNCTIONS ---
@@ -568,7 +561,6 @@
         }
 
         // --- ACTIONS ---
-
         function toggleFavorite(toolName) {
             if (favorites.includes(toolName)) {
                 favorites = favorites.filter(n => n !== toolName);
